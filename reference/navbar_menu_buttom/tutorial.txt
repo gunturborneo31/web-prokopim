@@ -1,0 +1,89 @@
+Langsung ini urutan dari nol supaya bisa dipindah ke project lain dan langsung menyatu dengan sistem yang sudah ada.
+
+1. File Yang Wajib Di-Copy
+Copy persis 3 file ini dari project sekarang:
+
+bottom_navbar.php
+bottom-navbar.blade.php
+navbar-menu-item.blade.php
+2. Susunan Folder Di Project Tujuan
+Pastikan folder di project tujuan mengikuti struktur ini:
+
+config/
+resources/views/components/
+Hasil akhirnya harus seperti ini:
+
+bottom_navbar.php
+bottom-navbar.blade.php
+navbar-menu-item.blade.php
+3. Langkah Integrasi Ke Layout Existing
+
+Buka layout utama frontend di project tujuan (misalnya layout app).
+Tambahkan include komponen navbar di bagian bawah body/content:
+@include('components.bottom-navbar')
+Gunakan pola dari app.blade.php sebagai referensi posisi include.
+4. Dependency Yang Harus Sudah Ada
+Agar fitur sama persis (dropdown, hover, active state), pastikan:
+
+AlpineJS aktif di frontend project tujuan.
+Tailwind utility class aktif (karena komponen pakai kelas utility).
+Material Symbols font dimuat di head layout.
+Jika pakai Vite, entry JS/CSS sudah ter-load di layout.
+Referensi setup yang sekarang dipakai:
+
+app.js
+app.css
+5. Pengisian Menu (Supaya Langsung Nyambung Route Existing)
+Semua menu diatur dari satu tempat: bottom_navbar.php
+
+Per item:
+
+route: nama route Laravel
+label: teks menu
+icon: nama material symbol
+active_routes: array route yang dianggap aktif
+dropdown: submenu jika diperlukan
+url: opsional, jika ingin link langsung tanpa named route
+Catatan: kalau route belum ada, komponen tidak crash (sudah ada fallback).
+
+6. Urutan Eksekusi Setelah Copy
+
+Simpan semua file.
+Jalankan clear config cache:
+php artisan config:clear
+Jalankan build asset frontend sesuai project (dev/build).
+Cek halaman frontend dan klik semua menu + dropdown.
+7. Prompting Yang Harus Anda Siapkan (Agar AI Langsung Integrasi)
+Gunakan prompt ini di project tujuan (tinggal ganti bagian dalam tanda kurung):
+
+--------------------------------------------------------------------------------------
+
+Prompt audit:
+Tolong audit project Laravel saya untuk integrasi floating bottom navbar reusable.
+Kebutuhan:
+
+Saya akan pakai 3 file: config/bottom_navbar.php, resources/views/components/bottom-navbar.blade.php, navbar-menu-item.blade.php
+Cocokkan dengan layout existing saya
+Cek apakah AlpineJS, Tailwind, dan Material Symbols sudah aktif
+Jika belum, lakukan penyesuaian minimal tanpa mengubah UI existing lain
+Beri daftar perubahan file yang dilakukan
+Prompt implementasi langsung:
+Implementasikan floating bottom navbar ke project Laravel saya dengan aturan:
+
+Pakai menu dari bottom_navbar.php
+Include komponen di layout frontend utama
+Pertahankan style dan behavior sama persis (active state, dropdown hover/click, transition)
+Jangan ubah route existing saya, hanya mapping dari config
+Setelah selesai, validasi error Blade/PHP dan laporkan file yang diubah
+Prompt custom menu cepat:
+Sesuaikan bottom_navbar.php dengan route saya berikut:
+(daftar route Anda)
+Buat:
+
+Menu utama
+1 menu dengan dropdown
+active_routes yang benar
+Lalu validasi semua route yang dipakai ada.
+Kalau Anda mau, saya bisa lanjut bantu buatkan isi config versi template kosong berdasarkan route di project baru Anda (jadi tinggal tempel).
+
+	

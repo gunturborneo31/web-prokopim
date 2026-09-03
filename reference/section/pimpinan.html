@@ -1,0 +1,484 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Meet the Team | Lumina Tech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "surface-container-low": "#191c1e",
+                        "outline": "#909097",
+                        "surface-container-high": "#272a2c",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "primary-container": "#0f172a",
+                        "on-surface-variant": "#c6c6cd",
+                        "background": "#0b0d0e",
+                        "secondary-fixed-dim": "#98da27",
+                        "on-background": "#e0e3e5",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "primary-fixed": "#dae2fd",
+                        "secondary-fixed": "#b2f746",
+                        "inverse-on-surface": "#2d3133",
+                        "on-tertiary-fixed": "#001e2c",
+                        "surface-container-highest": "#323537",
+                        "outline-variant": "#45464d",
+                        "secondary": "#274CA5",
+                        "on-surface": "#e0e3e5",
+                        "inverse-surface": "#e0e3e5",
+                        "secondary-container": "#83c300",
+                        "on-tertiary": "#00354a",
+                        "on-secondary-fixed": "#121f00",
+                        "on-primary": "#283044",
+                        "surface-variant": "#323537",
+                        "surface-bright": "#363a3b",
+                        "tertiary": "#7bd0ff",
+                        "on-tertiary-container": "#008abb",
+                        "surface-container-lowest": "#050708",
+                        "surface": "#101415",
+                        "on-secondary-container": "#304b00",
+                        "surface-dim": "#101415",
+                        "primary-fixed-dim": "#bec6e0",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#001a27",
+                        "surface-tint": "#bec6e0",
+                        "primary": "#bec6e0",
+                        "on-secondary": "#213600",
+                        "inverse-primary": "#565e74",
+                        "surface-container": "#1d2022",
+                        "tertiary-fixed": "#c4e7ff",
+                        "on-secondary-fixed-variant": "#334f00",
+                        "on-primary-fixed": "#131b2e",
+                        "on-primary-container": "#798098",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "margin-mobile": "20px",
+                        "max-width": "1440px",
+                        "gutter-sm": "16px",
+                        "margin-desktop": "64px",
+                        "gutter-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0b0d0e;
+            color: #e0e3e5;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .premium-glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.15;
+        }
+        .orb-primary { width: 400px; height: 400px; background: #bec6e0; top: 10%; right: -5%; }
+        .orb-secondary { width: 350px; height: 350px; background: #274CA5; bottom: 20%; left: -10%; }
+        
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(11, 13, 14, 0.7);
+        }
+        .hero-title-gradient {
+            background: linear-gradient(135deg, #fff 0%, #909097 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Redesign styles */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-entrance {
+            animation: slideUpFade 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-15px) translateX(10px); }
+        }
+        .floating-icon {
+            animation: float 4s ease-in-out infinite;
+        }
+        .floating-icon-delayed {
+            animation: float 5s ease-in-out infinite reverse;
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .rotate-slow {
+            animation: rotate-slow 12s linear infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+        .pulse-glow {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+
+        .team-card:hover .team-portrait {
+            transform: scale(1.1);
+        }
+        .team-card:hover .dynamic-bg {
+            animation-duration: 4s;
+            filter: brightness(1.5) drop-shadow(0 0 15px rgba(163, 230, 53, 0.4));
+            stroke: #274CA5;
+        }
+        .team-card:hover .dynamic-pulse {
+            background-color: #274CA5;
+            box-shadow: 0 0 30px #274CA5;
+        }
+
+        .social-icon-box {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .social-icon-box:hover {
+            background: #274CA5;
+            color: #0b0d0e;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .label-glass {
+            background: rgba(11, 13, 14, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-[#0b0d0e] selection:bg-secondary selection:text-on-secondary-fixed">
+<div class="orb orb-primary"></div>
+<div class="orb orb-secondary"></div>
+<!-- TopNavBar -->
+<!-- Hero Team Section -->
+<section class="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop">
+
+<!-- Tight Team Cluster Layout -->
+<div class="flex flex-col items-center"><div class="relative w-full max-w-5xl mx-auto py-12">
+<!-- Shared Background Glow -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-secondary/5 blur-[120px] rounded-full -z-10"></div>
+<!-- Unified Team Group -->
+<div class="relative flex justify-center items-end -space-x-16 md:-space-x-24 lg:-space-x-32 z-10">
+<!-- Adrian (Left, Behind) -->
+<div class="team-card group relative flex flex-col items-center animate-entrance" style="animation-delay: 0.1s;">
+<div class="relative w-48 md:w-64 lg:w-80 aspect-square mb-4">
+<div class="absolute inset-0 flex items-center justify-center opacity-20">
+<svg class="dynamic-bg rotate-slow w-full h-full stroke-primary" fill="none" viewBox="0 0 100 100">
+<circle cx="50" cy="50" r="48" stroke-dasharray="10 5" stroke-width="0.5"></circle>
+</svg>
+</div>
+<div class="relative z-10 w-full h-full rounded-full overflow-hidden border-2 border-white/10 bg-gradient-to-b fromwhite/10 to-transparent">
+<img alt="Adrian Thorne" class="team-portrait w-full h-full object-cover transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/AP1WRLtx3uLyqmlSO5yr7A5ZCGtj5lY5gzgYOB6kh09iQLyIncUt4EIaV26g_zgOwOiwvjzL2jQuGZws1lcs2xy6kosvq7kGSmXhmWtoqCFiXuTNZuA8AR78BKciQOvIlXZ6qPfHkrfzRxpdwYcd5JskhEk1a56T3_dWEUScftBeb9Z9vQZ18rrtXuiO3faQRuTCSyDxU3S507HWBbGIMoEl28OYMIwcbcxTkEZFMxfuluj7aWk2xkOh03dSGJo7">
+</div>
+</div>
+<div class="text-center px-4 py-2 label-glass rounded-xl w-full max-w-[180px] group-hover:border-secondary/30 transition-all">
+<h3 class="font-headline-md text-label-md text-on-surface truncate">Adrian Thorne</h3>
+<p class="font-label-sm text-secondary uppercase tracking-wider text-[10px]">Chief Architect</p>
+</div>
+<!-- Social Icon -->
+<div class="absolute top-0 left-0 z-20 floating-icon mouse-follow" data-speed="0.03" style="transform: translate(26.1125px, 8.68781px);"><div class="flex flex-col gap-2"><a class="social-icon-box" href="#"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a><a class="social-icon-box" href="#"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.324v-21.35c0-.732-.593-1.325-1.325-1.325z"></path></svg></a></div></div>
+</div>
+<!-- Elena (Center, Front) -->
+<div class="team-card group relative flex flex-col items-center animate-entrance z-20 scale-110" style="animation-delay: 0.2s;">
+<div class="relative w-56 md:w-72 lg:w-96 aspect-square mb-6">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="dynamic-pulse pulse-glow w-full h-full rounded-full bg-secondary/20 blur-3xl"></div>
+</div>
+<div class="relative z-10 w-full h-full rounded-full overflow-hidden border-4 border-secondary/30 bg-gradient-to-b fromwhite/10 to-transparent shadow-2xl shadow-secondary/20">
+<img alt="Elena Rodriguez" class="team-portrait w-full h-full object-cover transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/AP1WRLtG1wFI26_5kFi7bzwuKOfMeoLGUK5Xpc5CRMHN2guisPWQ5MJZSatrACIX5e7jWVY0T3TDyQTyN4zLPdvx4mBNaifF8tNa1FDpf_j_JWCeYYw_iM0jLhDLOmacH5AodRiGNrFXfzuFUqVhIubo_oKWmf3jPjOXU6ROPYY927QuSHM7JtDqxoQJ3P8IE59veyvOcTqruiiCV7sKrX7k0lLWI0GZGXtqAviH-8nTZa5RSSAmcXBSuLG96SO8">
+</div>
+</div>
+<div class="text-center px-6 py-3 label-glass rounded-xl w-full max-w-[220px] border-secondary/20 group-hover:border-secondary/50 transition-all">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 truncate">Elena Rodriguez</h3>
+<p class="font-label-md text-secondary uppercase tracking-wider">Product Innovation</p>
+</div>
+<!-- Social Icon -->
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 z-30 floating-icon-delayed mouse-follow" data-speed="0.05" style="transform: translate(24.3675px, 22.4597px);"><div class="flex gap-2"><a class="social-icon-box" href="#"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a><a class="social-icon-box" href="#"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.324v-21.35c0-.732-.593-1.325-1.325-1.325z"></path></svg></a></div></div>
+</div>
+<!-- Marcus (Right, Behind) -->
+<div class="team-card group relative flex flex-col items-center animate-entrance" style="animation-delay: 0.3s;">
+<div class="relative w-48 md:w-64 lg:w-80 aspect-square mb-4">
+<div class="absolute inset-0 flex items-center justify-center opacity-20">
+<svg class="dynamic-bg rotate-slow w-full h-full stroke-tertiary" fill="none" style="animation-direction: reverse;" viewBox="0 0 100 100">
+<circle cx="50" cy="50" r="45" stroke-dasharray="4 4" stroke-width="0.3"></circle>
+</svg>
+</div>
+<div class="relative z-10 w-full h-full rounded-full overflow-hidden border-2 border-white/10 bg-gradient-to-b fromwhite/10 to-transparent">
+<img alt="Marcus Chen" class="team-portrait w-full h-full object-cover transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/AP1WRLuBWp91_YkS1Ir_G5wbs3emGe38TxdaA6JAoy9AO78_v7JfyllKq4liurACY2WsQi-notghpUdIFmXwKcVXOas6oUvGQWhzVz1u8kp32q-_fHDYn5YX21wmxQzdGlu0MT3zU56P-7bhIf2-v5kcfBZLAOtitBLb-AkGFRO7OBRLyR44fwBxCFAYUMpKyZ-RS06jLCkLNFmuCudbFtatksE7Bq9vvDcIEc_DiaCSbbaJjntf7rF2rRiEETs">
+</div>
+</div>
+<div class="text-center px-4 py-2 label-glass rounded-xl w-full max-w-[180px] group-hover:border-secondary/30 transition-all">
+<h3 class="font-headline-md text-label-md text-on-surface truncate">Marcus Chen</h3>
+<p class="font-label-sm text-secondary uppercase tracking-wider text-[10px]">Director Engineering</p>
+</div>
+<!-- Social Icon -->
+<div class="absolute top-0 right-0 z-20 floating-icon mouse-follow" data-speed="0.04" style="transform: translate(5.61667px, 11.5837px);"><div class="flex flex-col gap-2"><a class="social-icon-box" href="#"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a><a class="social-icon-box" href="#"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.324v-21.35c0-.732-.593-1.325-1.325-1.325z"></path></svg></a></div></div>
+</div>
+</div>
+<!-- Shared Floor Reflection/Shadow -->
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-12 bg-gradient-to-t from-secondary/10 to-transparent blur-2xl rounded-full -z-10"></div>
+</div></div>
+</section>
+</main>
+<!-- Footer -->
+<script>
+    // Mouse follow effect for floating icons
+    document.addEventListener('mousemove', (e) => {
+        const icons = document.querySelectorAll('.mouse-follow');
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        
+        icons.forEach(icon => {
+            const speed = parseFloat(icon.getAttribute('data-speed'));
+            const rect = icon.getBoundingClientRect();
+            const iconX = rect.left + rect.width / 2;
+            const iconY = rect.top + rect.height / 2;
+            
+            const diffX = mouseX - iconX;
+            const diffY = mouseY - iconY;
+            
+            // Subtle translation based on mouse distance and individual speed
+            icon.style.transform = `translate(${diffX * speed}px, ${diffY * speed}px)`;
+        });
+    });
+</script>
+
+
+</body></html>
+
+---
+name: Lumina Tech
+colors:
+  surface: '#101415'
+  surface-dim: '#101415'
+  surface-bright: '#363a3b'
+  surface-container-lowest: '#0b0f10'
+  surface-container-low: '#191c1e'
+  surface-container: '#1d2022'
+  surface-container-high: '#272a2c'
+  surface-container-highest: '#323537'
+  on-surface: '#e0e3e5'
+  on-surface-variant: '#c6c6cd'
+  inverse-surface: '#e0e3e5'
+  inverse-on-surface: '#2d3133'
+  outline: '#909097'
+  outline-variant: '#45464d'
+  surface-tint: '#bec6e0'
+  primary: '#bec6e0'
+  on-primary: '#283044'
+  primary-container: '#0f172a'
+  on-primary-container: '#798098'
+  inverse-primary: '#565e74'
+  secondary: '#9ddf2e'
+  on-secondary: '#213600'
+  secondary-container: '#83c300'
+  on-secondary-container: '#304b00'
+  tertiary: '#7bd0ff'
+  on-tertiary: '#00354a'
+  tertiary-container: '#001a27'
+  on-tertiary-container: '#008abb'
+  error: '#ffb4ab'
+  on-error: '#690005'
+  error-container: '#93000a'
+  on-error-container: '#ffdad6'
+  primary-fixed: '#dae2fd'
+  primary-fixed-dim: '#bec6e0'
+  on-primary-fixed: '#131b2e'
+  on-primary-fixed-variant: '#3f465c'
+  secondary-fixed: '#b2f746'
+  secondary-fixed-dim: '#98da27'
+  on-secondary-fixed: '#121f00'
+  on-secondary-fixed-variant: '#334f00'
+  tertiary-fixed: '#c4e7ff'
+  tertiary-fixed-dim: '#7bd0ff'
+  on-tertiary-fixed: '#001e2c'
+  on-tertiary-fixed-variant: '#004c69'
+  background: '#101415'
+  on-background: '#e0e3e5'
+  surface-variant: '#323537'
+typography:
+  display-lg:
+    fontFamily: Inter
+    fontSize: 48px
+    fontWeight: '700'
+    lineHeight: 56px
+    letterSpacing: -0.02em
+  headline-lg:
+    fontFamily: Inter
+    fontSize: 32px
+    fontWeight: '600'
+    lineHeight: 40px
+    letterSpacing: -0.01em
+  headline-md:
+    fontFamily: Inter
+    fontSize: 24px
+    fontWeight: '600'
+    lineHeight: 32px
+  body-lg:
+    fontFamily: Inter
+    fontSize: 18px
+    fontWeight: '400'
+    lineHeight: 28px
+  body-md:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 24px
+  label-md:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: '600'
+    lineHeight: 20px
+    letterSpacing: 0.05em
+  label-sm:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '500'
+    lineHeight: 16px
+  headline-lg-mobile:
+    fontFamily: Inter
+    fontSize: 28px
+    fontWeight: '600'
+    lineHeight: 36px
+rounded:
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
+spacing:
+  base: 4px
+  gutter-sm: 16px
+  gutter-lg: 24px
+  margin-mobile: 16px
+  margin-desktop: 48px
+  max-width: 1440px
+---
+
+## Brand & Style
+
+The design system is engineered for high-performance SaaS and technology platforms, evoking a sense of precision, reliability, and forward-thinking innovation. The brand personality is "The Sophisticated Architect"—authoritative yet accessible, utilizing a deep professional aesthetic balanced by vibrant, energetic accents.
+
+The visual style is **Corporate Modern with Glassmorphism influences**. It leverages deep navy backgrounds to create a sense of infinite space, while UI elements appear as frosted, translucent layers floating above the canvas. This creates a premium, futuristic atmosphere that prioritizes data density and clarity without feeling cluttered. The contrast between the dark base and the lime green accent ensures a dynamic user experience that guides attention to critical actions.
+
+## Colors
+
+The palette is anchored in a dark-mode-first philosophy. The **Primary** color is a deep, professional navy used for backgrounds and major structural containers. The **Secondary** (Accent) color is a vibrant lime green, reserved for high-impact calls to action, success states, and key data points.
+
+A **Tertiary** sky blue is introduced for secondary actions and information highlights, providing a bridge between the deep navy and the lime green. Neutrals are kept crisp and cool, ranging from offwhite for primary text to muted grays for borders and secondary metadata.
+
+Color application should follow a 60-30-10 rule: 60% deep primary, 30% neutral/tertiary accents, and 10% lime green for peak visual emphasis.
+
+## Typography
+
+This design system utilizes **Inter** exclusively to maintain a systematic, utilitarian, and clean aesthetic. The typography relies on varying weights and tight letter spacing for headlines to achieve a "tech-editorial" look.
+
+Labels and navigation items are frequently set in uppercase with increased letter spacing to create a sense of precision and structure. For mobile devices, large display sizes scale down significantly to ensure legibility and prevent awkward line breaks in narrow viewports.
+
+## Layout & Spacing
+
+The layout follows a **Fluid Grid** model with strict 8px increments for internal component spacing. On desktop, the layout is contained within a 12-column grid with a maximum width of 1440px.
+
+- **Desktop:** 12 columns, 24px gutters, 48px side margins.
+- **Tablet:** 8 columns, 16px gutters, 32px side margins.
+- **Mobile:** 4 columns, 16px gutters, 16px side margins.
+
+Content should flow vertically in logical blocks. Use generous white space between sections to prevent "information fatigue" in data-heavy environments.
+
+## Elevation & Depth
+
+Visual hierarchy is established through **Glassmorphism and Ambient Glows**. Surfaces do not use traditional drop shadows; instead, they use a combination of:
+
+1.  **Backdrop Blurs:** High-level containers (like the navigation bar in the reference) use a `20px` background blur with a semi-transparent navy fill (`rgba(15, 23, 42, 0.8)`).
+2.  **Inner Glows:** Active elements utilize a subtle 1px inner border (top-weighted) to simulate light catching the edge of a glass pane.
+3.  **Tonal Stacking:** Surfaces are defined by color luminosity. The background is the darkest, while cards and modals are 5-10% lighter to indicate "closeness" to the user.
+
+## Shapes
+
+The design system uses a **Rounded-XL** language to soften the high-tech aesthetic, making the interface feel approachable and modern.
+
+- **Base Radius (Buttons, Inputs):** 0.5rem (8px).
+- **Large Radius (Cards, Modals):** 1rem (16px).
+- **Extra Large Radius (Navigation Bars, Containers):** 1.5rem (24px).
+
+Pill-shaped elements (Full Round) are reserved strictly for status badges and chips to differentiate them from actionable buttons.
+
+## Components
+
+### Buttons
+- **Primary:** Solid Lime Green (#274CA5) with dark navy text. No shadow, but a subtle "glow" on hover using a soft external blur of the accent color.
+- **Secondary:** Outlined with a 1.5px border in Tertiary blue.
+- **Ghost:** Transparent background with neutral white text, used for less prominent actions.
+
+### Navigation Bar
+Inspired by the reference image: A floating, high-radius container with a heavy backdrop blur. Active items should feature a "pill" highlight with a high-contrast background (light blue or lime green) to clearly indicate location.
+
+### Input Fields
+Darker than the surface background to create an "inset" feel. Borders should be subtle gray, turning Lime Green on focus. Use Inter Label-SM for floating labels.
+
+### Cards
+Cards should utilize the `rounded-lg` (1rem) setting. Backgrounds should be slightly lighter than the main canvas with a very thin (0.5px) border in a semi-transparent neutral to provide definition without looking "boxy."
+
+### Chips & Status Indicators
+Always pill-shaped. Use Lime Green for "Active/Success," Tertiary Blue for "Info," and a muted coral for "Errors."

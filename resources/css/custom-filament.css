@@ -1,0 +1,77 @@
+/* Global Full Width for Post & Slider Resources */
+
+/* Dobrak batasan lebar pada kontainer utama */
+.fi-resource-posts .fi-main,
+.fi-resource-posts .fi-main-ctn,
+.fi-resource-posts .fi-page,
+.fi-resource-posts .fi-page-content-wrapper,
+.fi-resource-posts .fi-page-content,
+.fi-resource-posts .fi-section,
+.fi-resource-posts .fi-form,
+.fi-resource-sliders .fi-main,
+.fi-resource-sliders .fi-main-ctn,
+.fi-resource-sliders .fi-page,
+.fi-resource-sliders .fi-page-content-wrapper,
+.fi-resource-sliders .fi-page-content,
+.fi-resource-sliders .fi-section,
+.fi-resource-sliders .fi-form {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* Hilangkan padding samping agar benar-benar mepet */
+.fi-resource-posts .fi-main,
+.fi-resource-sliders .fi-main {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Page Header - Full Width White */
+.fi-resource-posts .fi-header,
+.fi-resource-sliders .fi-header {
+    background: white !important;
+    padding: 1.5rem 2rem !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    margin-bottom: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.dark .fi-resource-posts .fi-header,
+.dark .fi-resource-sliders .fi-header {
+    background: #0f172a !important;
+    border-bottom-color: #1e293b !important;
+}
+
+/* Form Container - Rapat ke Kiri & Full Width */
+.fi-resource-posts .fi-fo,
+.fi-resource-sliders .fi-fo {
+    background: white !important;
+    padding: 2.5rem !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: calc(100vh - 80px);
+}
+
+.dark .fi-resource-posts .fi-fo,
+.dark .fi-resource-sliders .fi-fo {
+    background: #111827 !important;
+}
+
+/* Hilangkan border section di dalam form agar menyatu */
+.fi-resource-posts .fi-section,
+.fi-resource-sliders .fi-section {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Gaya khusus untuk header heading */
+.fi-header-heading {
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-weight: 700 !important;
+}

@@ -1,0 +1,13 @@
+/* File Manager Grid View Styles */
+/* Membersihkan kode yang mungkin menghalangi grid horizontal */
+
+.file-manager-grid-view .fi-ta-content>div {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+    gap: 1.25rem !important;
+}
+
+.file-manager-grid-view .fi-ta-record {
+    width: auto !important;
+    max-width: none !important;
+}
