@@ -26,7 +26,7 @@
                          class="logo-sharp h-14 w-auto drop-shadow-lg" alt="Logo Pemkab Mahakam Ulu" 
                          onerror="this.style.display='none'">
                     <div>
-                        <h3 class="font-extrabold text-xl leading-tight text-white tracking-wide">{{ strtoupper($brandTitle) }}</h3>
+                        <h3 class="font-extrabold text-xl leading-tight text-white tracking-wide">PROKOPIM</h3>
                         <p class="text-[13px] font-medium text-white tracking-widest uppercase">{{ strtoupper($brandName) }}</p>
                     </div>
                 </div>
@@ -39,19 +39,19 @@
                         </div>
                         <span class="pt-1.5 leading-snug">{{ $contactAddress }}</span>
                     </li>
-                    <li class="flex items-center space-x-3 group">
+                    <li class="flex items-center space-x-3 group hidden">
                         <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 transition-colors border border-white/5">
                             <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                         </div>
                         <span class="font-medium tracking-wide">{{ $contactPhone }}</span>
                     </li>
-                    <li class="flex items-center space-x-3 group">
+                    <li class="flex items-center space-x-3 group hidden">
                         <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 transition-colors border border-white/5">
                             <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                         </div>
                         <span>{{ $contactEmail }}</span>
                     </li>
-                    <li class="flex items-center space-x-3 group">
+                    <li class="flex items-center space-x-3 group  hidden">
                         <a href="{{ $instagramUrl }}" target="_blank" class="flex items-center space-x-3 group w-full">
                             <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 group-hover:border-white/30 transition-all duration-300 border border-white/5">
                                 <svg class="w-4 h-4 text-white group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465C9.673 2.013 10.03 2 12.315 2zm-1.2 1.95c-2.048 0-2.29.009-3.033.043-.738.034-1.14.152-1.405.255-.35.136-.6.298-.865.563-.265.265-.427.515-.563.865-.103.265-.221.667-.255 1.405-.034.743-.043.985-.043 3.033 0 2.048.009 2.29.043 3.033.034.738.152 1.14.255 1.405.136.35.298.6.563.865.265.265.515.427.865.563.265.103.667.221 1.405.255.743.034.985.043 3.033.043 2.048 0 2.29-.009 3.033-.043.738-.034 1.14-.152 1.405-.255.35-.136.6-.298.865-.563.265-.265.427-.515.563-.865.103-.265.221-.667.255-1.405.034-.743.043-.985.043-3.033 0-2.048-.009-2.29-.043-3.033-.034-.738-.152-1.14-.255-1.405-.136-.35-.298-.6-.563-.865-.265-.265-.515-.427-.865-.563-.103-.265-.221-.667-.255-1.405-.034-.743-.043-.985-.043-3.033zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.95a3.185 3.185 0 100 6.37 3.185 3.185 0 000-6.37zM15.353 7.828a1.296 1.296 0 100-2.592 1.296 1.296 0 000 2.592z" clip-rule="evenodd" /></svg>
