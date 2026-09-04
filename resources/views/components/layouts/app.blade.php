@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#0f172a">
-    <meta name="description" content="{{ $metaDescription ?? 'Portal resmi Badan Perencanaan, Penelitian dan Pengembangan Daerah (PROKOPIM) Kabupaten Mahakam Ulu. Informasi perencanaan pembangunan, agenda, regulasi, dan layanan publik.' }}">
+    <meta name="description" content="{{ $metaDescription ?? 'Portal resmi Bagian Protokol dan Komunikasi Pimpinan (PROKOPIM) Kabupaten Mahakam Ulu. Informasi keprotokolan, komunikasi pimpinan, agenda, regulasi, dan layanan publik.' }}">
     <meta name="keywords" content="PROKOPIM, Mahakam Ulu, Perencanaan Pembangunan, PPID, Informasi Publik, Kalimantan Timur">
     <meta name="author" content="PROKOPIM Kabupaten Mahakam Ulu">
     <meta name="robots" content="index, follow">

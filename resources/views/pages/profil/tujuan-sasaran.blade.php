@@ -69,7 +69,7 @@
             </div>
             <div class="text-center mt-6 mb-4">
                 <p class="text-slate-700 text-lg leading-relaxed font-medium">
-                    Meningkatkan Kualitas Perencanaan, Penelitian dan Pengendalian Pembangunan yang akuntabel
+                    Meningkatkan Kualitas Pelayanan Keprotokolan dan Komunikasi Pimpinan Daerah yang profesional dan akuntabel
                 </p>
             </div>
         </div>
@@ -89,7 +89,7 @@
             </div>
             <div class="text-center mt-6 mb-4">
                 <p class="text-slate-700 text-lg leading-relaxed font-medium">
-                    Meningkatkan Keselarasan Perencanaan Pembangunan. Meningkatnya kualitas perencanaan pada (Bidang Perekonomian dan SDA, Bidang PPM dan Bidang Infrastruktur & Kewilayahan). Meningkatkan Peran Kelitbangan Dalam Pembangunan
+                    Meningkatnya kualitas penyelenggaraan acara kedinasan dan keprotokolan pimpinan daerah. Meningkatnya efektivitas komunikasi dan diseminasi informasi kebijakan pimpinan kepada masyarakat (Bidang Protokol, Bidang Komunikasi Pimpinan, dan Bidang Dokumentasi & Pemberitaan). Meningkatkan Peran Kehumasan Dalam Pembangunan
                 </p>
             </div>
         </div>

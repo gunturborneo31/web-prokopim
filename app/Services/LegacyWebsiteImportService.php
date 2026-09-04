@@ -111,7 +111,7 @@ class LegacyWebsiteImportService
                 ['label' => 'KEMENDAGRI RI', 'url' => 'https://pelita.kemendagri.go.id/'],
                 ['label' => 'KEMENKEU RI', 'url' => 'https://www.kemenkeu.go.id/'],
                 ['label' => 'BAPPENAS RI', 'url' => 'https://www.bappenas.go.id/'],
-                ['label' => 'BAPPEDA KALTIM', 'url' => 'https://bappeda.kaltimprov.go.id/beranda'],
+                ['label' => 'PROKOPIM KALTIM', 'url' => 'https://bappeda.kaltimprov.go.id/beranda'],
                 ['label' => 'BPS PUSAT', 'url' => 'https://www.bps.go.id/id'],
                 ['label' => 'BPS KALTIM', 'url' => 'https://kaltim.bps.go.id/id'],
             ],

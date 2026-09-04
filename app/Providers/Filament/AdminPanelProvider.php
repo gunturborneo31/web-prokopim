@@ -556,6 +556,45 @@ class AdminPanelProvider extends PanelProvider
                     }
 
                 </style>
+                <script>
+                    (() => {
+                        const marker = 'rv=20260904a';
+                        const richEditorPath = '/js/filament/forms/components/rich-editor.js';
+
+                        const patchLoadSrc = (root = document) => {
+                            const nodes = root.querySelectorAll('[x-load-src]');
+
+                            nodes.forEach((el) => {
+                                const src = el.getAttribute('x-load-src');
+
+                                if (!src || !src.includes(richEditorPath) || src.includes(marker)) {
+                                    return;
+                                }
+
+                                const separator = src.includes('?') ? '&' : '?';
+                                el.setAttribute('x-load-src', `${src}${separator}${marker}`);
+                            });
+                        };
+
+                        patchLoadSrc();
+                        document.addEventListener('livewire:navigated', () => patchLoadSrc());
+
+                        const observer = new MutationObserver((mutations) => {
+                            for (const mutation of mutations) {
+                                for (const node of mutation.addedNodes) {
+                                    if (node instanceof Element) {
+                                        patchLoadSrc(node);
+                                    }
+                                }
+                            }
+                        });
+
+                        observer.observe(document.documentElement, {
+                            childList: true,
+                            subtree: true,
+                        });
+                    })();
+                </script>
                 HTML)
             )
 
@@ -635,4 +674,3 @@ class AdminPanelProvider extends PanelProvider
             ]);
     }
 }
-

@@ -83,7 +83,7 @@
                             ['label' => 'KEMENDAGRI RI', 'url' => 'https://pelita.kemendagri.go.id/'],
                             ['label' => 'KEMENKEU RI', 'url' => 'https://www.kemenkeu.go.id/'],
                             ['label' => 'BAPPENAS RI', 'url' => 'https://www.bappenas.go.id/'],
-                            ['label' => 'BAPPEDA KALTIM', 'url' => 'https://bappeda.kaltimprov.go.id/beranda'],
+                            ['label' => 'PROKOPIM KALTIM', 'url' => 'https://bappeda.kaltimprov.go.id/beranda'],
                             ['label' => 'BPS PUSAT', 'url' => 'https://www.bps.go.id/id'],
                             ['label' => 'BPS KALTIM', 'url' => 'https://kaltim.bps.go.id/id'],
                         ];
@@ -98,21 +98,21 @@
                 </ul>
             </div>
 
-            <!-- Column 3: Bappeda Kota & Kabupaten -->
+            <!-- Column 3: PROKOPIM Kota & Kabupaten -->
             <div class="lg:w-auto">
                 <h4 class="font-bold text-white mb-6 uppercase tracking-wider text-sm flex items-center">
                     <span class="w-2 h-2 rounded-full bg-white mr-3"></span>
-                    Bappeda Kota
+                    PROKOPIM Kota
                 </h4>
                 <ul class="space-y-2 text-[13px] text-slate-300 font-medium tracking-wide mb-8">
                     @php
-                        $bappedaKota = [
+                        $prokopimKota = [
                             ['label' => 'Balikpapan', 'url' => 'https://bappeda.balikpapan.go.id/'],
                             ['label' => 'Bontang', 'url' => 'https://www.instagram.com/ppidbapperidabontang/'],
                             ['label' => 'Samarinda', 'url' => 'https://bapperida.samarindakota.go.id/web'],
                         ];
                     @endphp
-                    @foreach($bappedaKota as $kota)
+                    @foreach($prokopimKota as $kota)
                     <li>
                         <a href="{{ $kota['url'] }}" target="_blank" class="hover:text-white flex items-center group transition-all duration-300 hover:translate-x-1">
                             <span class="text-white/30 mr-2 group-hover:text-white transition-colors">-</span> {{ $kota['label'] }}
@@ -123,11 +123,11 @@
 
                 <h4 class="font-bold text-white mb-6 uppercase tracking-wider text-sm flex items-center">
                     <span class="w-2 h-2 rounded-full bg-white mr-3"></span>
-                    Bappeda Kabupaten
+                    PROKOPIM Kabupaten
                 </h4>
                 <div class="grid grid-cols-1 gap-2 text-[13px] text-slate-300 font-medium tracking-wide">
                     @php
-                        $bappedaKab = [
+                        $prokopimKab = [
                             ['label' => 'Kutai Barat', 'url' => 'http://bappedalitbang.kutaibaratkab.go.id/'],
                             ['label' => 'Kutai Kartanegara', 'url' => 'https://www.instagram.com/bappeda.kutaikartanegara/'],
                             ['label' => 'Kutai Timur', 'url' => 'https://www.instagram.com/bappeda.kutim/'],
@@ -136,7 +136,7 @@
                             ['label' => 'Paser', 'url' => 'https://bappedalitbang.paserkab.go.id/'],
                         ];
                     @endphp
-                    @foreach($bappedaKab as $kab)
+                    @foreach($prokopimKab as $kab)
                         <a href="{{ $kab['url'] }}" target="_blank" class="hover:text-white flex items-center group transition-all duration-300 hover:translate-x-1">
                             <span class="text-white/30 mr-2 group-hover:text-white transition-colors">-</span> {{ $kab['label'] }}
                         </a>

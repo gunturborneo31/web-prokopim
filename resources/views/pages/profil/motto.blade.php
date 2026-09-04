@@ -31,7 +31,7 @@
                 </div>
                 <blockquote class="text-center pt-4 pb-2">
                     <p class="font-montserrat font-medium text-2xl md:text-3xl text-slate-800 leading-tight italic">
-                        "Berhasil membuat perencanaan, berarti merencanakan keberhasilan"
+                        "Berhasil melayani pimpinan, berarti melayani masyarakat"
                     </p>
                 </blockquote>
             </div>

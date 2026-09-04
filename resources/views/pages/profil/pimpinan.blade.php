@@ -140,7 +140,7 @@
                             </svg>
                             <div>
                                 <p class="text-slate-600 text-sm leading-relaxed italic">
-                                    Sebagai Kepala PROKOPIM Kabupaten Mahakam Ulu, kami berkomitmen untuk membangun perencanaan pembangunan daerah yang inovatif, transparan, dan berbasis data. Melalui kolaborasi dengan seluruh OPD dan partisipasi aktif masyarakat, kita wujudkan Mahakam Ulu yang lebih maju dan sejahtera.
+                                    Sebagai Kepala PROKOPIM Kabupaten Mahakam Ulu, kami berkomitmen memberikan pelayanan keprotokolan dan komunikasi pimpinan yang profesional, responsif, dan transparan. Melalui sinergi dengan seluruh OPD dan media, kita wujudkan Mahakam Ulu yang lebih maju dan sejahtera.
                                 </p>
                                 <p class="text-sky-600 font-bold text-xs mt-3">— Yohanes Andy Abeh, S.Sos., M.Si.</p>
                             </div>
@@ -199,12 +199,12 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 @foreach([
-                    ['title' => 'Perencanaan Pembangunan', 'desc' => 'Memimpin dan mengoordinasikan penyusunan dokumen perencanaan pembangunan daerah (RPJPD, RPJMD, RKPD).'],
-                    ['title' => 'Koordinasi Antar OPD', 'desc' => 'Mengoordinasikan seluruh Organisasi Perangkat Daerah dalam sinkronisasi program dan kegiatan pembangunan.'],
-                    ['title' => 'Penelitian & Pengembangan', 'desc' => 'Memimpin kegiatan penelitian, pengembangan, dan inovasi untuk mendukung kebijakan daerah berbasis bukti.'],
-                    ['title' => 'Monitoring & Evaluasi', 'desc' => 'Melaksanakan pengendalian dan evaluasi pelaksanaan rencana pembangunan daerah secara berkala.'],
-                    ['title' => 'Pengelolaan Data Pembangunan', 'desc' => 'Mengelola sistem informasi perencanaan dan data statistik pembangunan Kabupaten Mahakam Ulu.'],
-                    ['title' => 'Musyawarah Perencanaan', 'desc' => 'Memimpin pelaksanaan Musrenbang di seluruh tingkatan untuk menjaring aspirasi dan kebutuhan masyarakat.'],
+                    ['title' => 'Keprotokolan Pimpinan', 'desc' => 'Memimpin dan mengoordinasikan penyelenggaraan acara resmi serta tata protokol kegiatan pimpinan daerah.'],
+                    ['title' => 'Koordinasi Antar OPD', 'desc' => 'Mengoordinasikan seluruh Organisasi Perangkat Daerah dalam penyelenggaraan agenda dan komunikasi kebijakan pimpinan.'],
+                    ['title' => 'Komunikasi & Kehumasan', 'desc' => 'Memimpin pengelolaan komunikasi publik, kehumasan, dan hubungan media untuk mendukung kebijakan daerah.'],
+                    ['title' => 'Monitoring & Evaluasi', 'desc' => 'Melaksanakan pemantauan dan evaluasi pelaksanaan agenda serta pemberitaan kegiatan pimpinan daerah.'],
+                    ['title' => 'Pengelolaan Informasi Publik', 'desc' => 'Mengelola sistem informasi publik dan dokumentasi kegiatan Pemerintah Kabupaten Mahakam Ulu.'],
+                    ['title' => 'Layanan Informasi Publik (PPID)', 'desc' => 'Memimpin pelayanan informasi publik dan keterbukaan informasi bagi masyarakat Kabupaten Mahakam Ulu.'],
                 ] as $idx => $task)
                 <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-sky-50/50 hover:border-sky-200 transition-all group">
                     <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 text-sky-600 font-black text-sm group-hover:bg-sky-100 group-hover:border-sky-300 transition-colors">

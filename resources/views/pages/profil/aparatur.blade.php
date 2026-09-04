@@ -85,10 +85,10 @@
                 $pejabatStruktural = [
                     ['nama' => 'Yohanes Andy Abeh, S.Sos., M.Si.', 'nip' => '19750315 200012 1 003', 'jabatan' => 'Kepala Badan', 'golongan' => 'IV/b', 'color' => 'sky'],
                     ['nama' => 'Drs. Markus Lenjau, M.AP.', 'nip' => '19680722 199303 1 008', 'jabatan' => 'Sekretaris', 'golongan' => 'IV/a', 'color' => 'blue'],
-                    ['nama' => 'Ir. Siti Rahmawati, M.T.', 'nip' => '19800410 200502 2 004', 'jabatan' => 'Kabid Perencanaan, Pengendalian & Evaluasi', 'golongan' => 'III/d', 'color' => 'indigo'],
-                    ['nama' => 'Hendra Wijaya, S.E., M.Si.', 'nip' => '19820915 200604 1 012', 'jabatan' => 'Kabid Pemerintahan & Pembangunan Manusia', 'golongan' => 'III/d', 'color' => 'violet'],
-                    ['nama' => 'Theresia Lungo, S.T., M.T.', 'nip' => '19790205 200312 2 006', 'jabatan' => 'Kabid Ekonomi, SDA & Infrastruktur', 'golongan' => 'III/d', 'color' => 'emerald'],
-                    ['nama' => 'Dr. Robertus Imang, M.Si.', 'nip' => '19770118 200101 1 005', 'jabatan' => 'Kabid Penelitian & Pengembangan', 'golongan' => 'III/d', 'color' => 'amber'],
+                    ['nama' => 'Ir. Siti Rahmawati, M.T.', 'nip' => '19800410 200502 2 004', 'jabatan' => 'Kabid Protokol', 'golongan' => 'III/d', 'color' => 'indigo'],
+                    ['nama' => 'Hendra Wijaya, S.E., M.Si.', 'nip' => '19820915 200604 1 012', 'jabatan' => 'Kabid Komunikasi Pimpinan', 'golongan' => 'III/d', 'color' => 'violet'],
+                    ['nama' => 'Theresia Lungo, S.T., M.T.', 'nip' => '19790205 200312 2 006', 'jabatan' => 'Kabid Dokumentasi & Pemberitaan', 'golongan' => 'III/d', 'color' => 'emerald'],
+                    ['nama' => 'Dr. Robertus Imang, M.Si.', 'nip' => '19770118 200101 1 005', 'jabatan' => 'Kabid Hubungan Masyarakat & Informasi Publik', 'golongan' => 'III/d', 'color' => 'amber'],
                 ];
             @endphp
 
@@ -133,39 +133,39 @@
                     ],
                 ],
                 [
-                    'title' => 'Bidang Perencanaan, Pengendalian & Evaluasi',
+                    'title' => 'Bidang Protokol',
                     'color' => 'indigo',
                     'staf' => [
-                        ['nama' => 'Andi Prasetyo, S.T.', 'nip' => '19870422 201101 1 018', 'jabatan' => 'Analis Perencanaan', 'golongan' => 'III/c'],
-                        ['nama' => 'Novita Sari, S.E.', 'nip' => '19910810 201504 2 025', 'jabatan' => 'Penyusun Program & Anggaran', 'golongan' => 'III/b'],
-                        ['nama' => 'Cornelius Laing, S.Si.', 'nip' => '19930115 202001 1 035', 'jabatan' => 'Pengelola Data Pembangunan', 'golongan' => 'III/a'],
+                        ['nama' => 'Andi Prasetyo, S.T.', 'nip' => '19870422 201101 1 018', 'jabatan' => 'Analis Keprotokolan', 'golongan' => 'III/c'],
+                        ['nama' => 'Novita Sari, S.E.', 'nip' => '19910810 201504 2 025', 'jabatan' => 'Penyusun Acara & Tata Upacara', 'golongan' => 'III/b'],
+                        ['nama' => 'Cornelius Laing, S.Si.', 'nip' => '19930115 202001 1 035', 'jabatan' => 'Pengelola Layanan Tamu Pimpinan', 'golongan' => 'III/a'],
                     ],
                 ],
                 [
-                    'title' => 'Bidang Pemerintahan & Pembangunan Manusia',
+                    'title' => 'Bidang Komunikasi Pimpinan',
                     'color' => 'violet',
                     'staf' => [
-                        ['nama' => 'Fransiska Njuk, S.Sos.', 'nip' => '19860930 200903 2 011', 'jabatan' => 'Analis Kebijakan Sosial', 'golongan' => 'III/c'],
-                        ['nama' => 'Daniel Usang, S.IP.', 'nip' => '19890718 201305 1 020', 'jabatan' => 'Perencana Pertama', 'golongan' => 'III/b'],
-                        ['nama' => 'Rosalina Belawan, S.Pd.', 'nip' => '19940225 202101 2 038', 'jabatan' => 'Analis SDM Aparatur', 'golongan' => 'III/a'],
+                        ['nama' => 'Fransiska Njuk, S.Sos.', 'nip' => '19860930 200903 2 011', 'jabatan' => 'Analis Komunikasi Pimpinan', 'golongan' => 'III/c'],
+                        ['nama' => 'Daniel Usang, S.IP.', 'nip' => '19890718 201305 1 020', 'jabatan' => 'Pengelola Agenda & Jadwal Pimpinan', 'golongan' => 'III/b'],
+                        ['nama' => 'Rosalina Belawan, S.Pd.', 'nip' => '19940225 202101 2 038', 'jabatan' => 'Pengadministrasi Persuratan Pimpinan', 'golongan' => 'III/a'],
                     ],
                 ],
                 [
-                    'title' => 'Bidang Ekonomi, SDA & Infrastruktur',
+                    'title' => 'Bidang Dokumentasi & Pemberitaan',
                     'color' => 'emerald',
                     'staf' => [
-                        ['nama' => 'Stefanus Liah, S.T.', 'nip' => '19880312 201201 1 016', 'jabatan' => 'Analis Infrastruktur', 'golongan' => 'III/c'],
-                        ['nama' => 'Yuliana Apui, S.E.', 'nip' => '19910608 201504 2 026', 'jabatan' => 'Perencana Ekonomi Daerah', 'golongan' => 'III/b'],
-                        ['nama' => 'Mikhael Avun, S.Hut.', 'nip' => '19930720 202001 1 036', 'jabatan' => 'Analis SDA & Lingkungan', 'golongan' => 'III/a'],
+                        ['nama' => 'Stefanus Liah, S.T.', 'nip' => '19880312 201201 1 016', 'jabatan' => 'Pranata Dokumentasi', 'golongan' => 'III/c'],
+                        ['nama' => 'Yuliana Apui, S.E.', 'nip' => '19910608 201504 2 026', 'jabatan' => 'Analis Pemberitaan', 'golongan' => 'III/b'],
+                        ['nama' => 'Mikhael Avun, S.Hut.', 'nip' => '19930720 202001 1 036', 'jabatan' => 'Pranata Multimedia', 'golongan' => 'III/a'],
                         ['nama' => 'Bernadus Along', 'nip' => '19950415 202201 1 042', 'jabatan' => 'Pengadministrasi Teknis', 'golongan' => 'II/c'],
                     ],
                 ],
                 [
-                    'title' => 'Bidang Penelitian & Pengembangan',
+                    'title' => 'Bidang Hubungan Masyarakat & Informasi Publik',
                     'color' => 'amber',
                     'staf' => [
-                        ['nama' => 'Melkianus Suang, S.Si., M.Si.', 'nip' => '19860115 200903 1 010', 'jabatan' => 'Peneliti Pertama', 'golongan' => 'III/c'],
-                        ['nama' => 'Christina Lawing, S.Sos.', 'nip' => '19900430 201504 2 024', 'jabatan' => 'Analis Inovasi Daerah', 'golongan' => 'III/b'],
+                        ['nama' => 'Melkianus Suang, S.Si., M.Si.', 'nip' => '19860115 200903 1 010', 'jabatan' => 'Analis Hubungan Masyarakat', 'golongan' => 'III/c'],
+                        ['nama' => 'Christina Lawing, S.Sos.', 'nip' => '19900430 201504 2 024', 'jabatan' => 'Pengelola Layanan Informasi Publik (PPID)', 'golongan' => 'III/b'],
                         ['nama' => 'Alfonsus Baya, S.Kom.', 'nip' => '19940810 202101 1 040', 'jabatan' => 'Pengelola Sistem Informasi', 'golongan' => 'III/a'],
                     ],
                 ],
