@@ -576,14 +576,110 @@ class AdminPanelProvider extends PanelProvider
                             });
                         };
 
+                        const initPostsCategoryDropdownSearch = (root = document) => {
+                            const dropdowns = root.querySelectorAll('[data-category-search-dropdown="posts-create"]');
+
+                            dropdowns.forEach((dropdown) => {
+                                if (dropdown.dataset.categorySearchReady === '1') {
+                                    return;
+                                }
+
+                                dropdown.dataset.categorySearchReady = '1';
+
+                                const setupSearchInput = () => {
+                                    const panel = dropdown.querySelector('.fi-dropdown-panel');
+
+                                    if (!panel || panel.querySelector('[data-category-search-input="posts-create"]')) {
+                                        return;
+                                    }
+
+                                    const searchWrap = document.createElement('div');
+                                    searchWrap.className = 'px-2 pt-2';
+
+                                    const searchInput = document.createElement('input');
+                                    searchInput.type = 'search';
+                                    searchInput.placeholder = 'Cari kategori...';
+                                    searchInput.setAttribute('data-category-search-input', 'posts-create');
+                                    searchInput.className = 'fi-input block w-full';
+
+                                    const emptyState = document.createElement('div');
+                                    emptyState.textContent = 'Kategori tidak ditemukan.';
+                                    emptyState.className = 'px-2 py-2 text-sm text-gray-500 dark:text-gray-400 hidden';
+                                    emptyState.setAttribute('data-category-search-empty', 'posts-create');
+
+                                    searchWrap.appendChild(searchInput);
+                                    panel.prepend(searchWrap);
+                                    panel.appendChild(emptyState);
+
+                                    const filterItems = () => {
+                                        const term = searchInput.value.trim().toLowerCase();
+                                        const items = panel.querySelectorAll('.fi-dropdown-list-item');
+                                        let visibleItems = 0;
+
+                                        items.forEach((item) => {
+                                            const label = item.querySelector('.fi-dropdown-list-item-label');
+                                            const text = (label?.textContent ?? '').trim().toLowerCase();
+                                            const isVisible = term === '' || text.includes(term);
+
+                                            item.style.display = isVisible ? '' : 'none';
+
+                                            if (isVisible) {
+                                                visibleItems++;
+                                            }
+                                        });
+
+                                        emptyState.classList.toggle('hidden', visibleItems > 0);
+                                    };
+
+                                    searchInput.addEventListener('input', filterItems);
+                                    searchInput.addEventListener('keydown', (event) => {
+                                        event.stopPropagation();
+                                    });
+                                };
+
+                                const focusSearchInput = () => {
+                                    setupSearchInput();
+
+                                    const searchInput = dropdown.querySelector('[data-category-search-input="posts-create"]');
+
+                                    if (!searchInput) {
+                                        return;
+                                    }
+
+                                    searchInput.value = '';
+                                    searchInput.dispatchEvent(new Event('input'));
+                                    searchInput.focus();
+                                };
+
+                                const trigger = dropdown.querySelector('.fi-dropdown-trigger');
+
+                                if (!trigger) {
+                                    return;
+                                }
+
+                                trigger.addEventListener('mousedown', () => {
+                                    setTimeout(focusSearchInput, 0);
+                                });
+
+                                trigger.addEventListener('keyup', (event) => {
+                                    if (event.key === 'Enter' || event.key === ' ') {
+                                        setTimeout(focusSearchInput, 0);
+                                    }
+                                });
+                            });
+                        };
+
                         patchLoadSrc();
+                        initPostsCategoryDropdownSearch();
                         document.addEventListener('livewire:navigated', () => patchLoadSrc());
+                        document.addEventListener('livewire:navigated', () => initPostsCategoryDropdownSearch());
 
                         const observer = new MutationObserver((mutations) => {
                             for (const mutation of mutations) {
                                 for (const node of mutation.addedNodes) {
                                     if (node instanceof Element) {
                                         patchLoadSrc(node);
+                                        initPostsCategoryDropdownSearch(node);
                                     }
                                 }
                             }
