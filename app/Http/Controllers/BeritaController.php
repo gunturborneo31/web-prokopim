@@ -123,7 +123,7 @@ class BeritaController extends Controller
         }
 
         $content = trim((string) $post->content);
-        $plainContent = preg_replace('/\s{3,}/', "\n\n", strip_tags($content));
+        $contentForView = $content !== '' ? $content : '';
 
         return [
             'title' => $post->title,
@@ -135,7 +135,7 @@ class BeritaController extends Controller
             'excerpt' => Str::limit(trim(strip_tags($content)), 180),
             'author' => $post->penulis ?: ($post->user?->name ?? 'Admin'),
             'tags' => is_array($post->tags) ? $post->tags : array_values(array_filter(array_map('trim', explode(',', (string) $post->tags)))),
-            'content' => $includeContent ? $plainContent : null,
+            'content' => $includeContent ? $contentForView : null,
         ];
     }
 

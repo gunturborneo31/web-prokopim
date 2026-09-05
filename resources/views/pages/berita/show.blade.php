@@ -105,10 +105,30 @@
                 </div>
 
                 {{-- Article Content --}}
-                <div class="prose prose-lg prose-slate max-w-none">
-                    @foreach(array_filter(explode("\n\n", $news['content'])) as $paragraph)
-                    <p class="text-slate-600 leading-relaxed text-base mb-6">{{ trim($paragraph) }}</p>
-                    @endforeach
+                @php
+                    $articleContent = $news['content'] ?? '';
+                    if ($articleContent !== '' && strip_tags($articleContent) === $articleContent) {
+                        $paragraphs = array_values(array_filter(array_map('trim', preg_split('/\R+/', $articleContent))));
+                        $paragraphs = array_map('e', $paragraphs);
+                        $articleContent = ! empty($paragraphs)
+                            ? '<p>' . implode('</p><p>', $paragraphs) . '</p>'
+                            : '<p>' . e($articleContent) . '</p>';
+                    }
+                    $hasBlockHtml = preg_match('/<(p|div|h[1-6]|ul|ol|li|blockquote|table|figure)\b/i', $articleContent) === 1;
+                    if ($articleContent !== '' && $hasBlockHtml === false) {
+                        $articleContent = nl2br($articleContent, false);
+                    }
+                @endphp
+                @once
+                    <style>
+                        .article-rich-content > * + * { margin-top: 1.75rem; }
+                        .article-rich-content p { margin: 0 0 1.75rem !important; line-height: 2rem !important; }
+                        .article-rich-content p:last-child { margin-bottom: 0 !important; }
+                        .article-rich-content br { display: block; content: ""; margin-top: 0.9rem; }
+                    </style>
+                @endonce
+                <div class="article-rich-content max-w-none text-slate-700 [&_ul]:mb-8 [&_ol]:mb-8 [&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-6 [&_ol]:pl-6 [&_li]:mb-3 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mb-6 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mb-5 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-slate-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-8 [&_a]:text-sky-700 [&_a]:underline hover:[&_a]:text-sky-900 [&_strong]:font-semibold [&_img]:rounded-xl [&_img]:my-8">
+                    {!! $articleContent ?: '<p class="text-slate-600">Belum ada konten berita.</p>' !!}
                 </div>
 
                 {{-- Tags --}}

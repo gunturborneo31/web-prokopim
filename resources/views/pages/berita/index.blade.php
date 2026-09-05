@@ -100,23 +100,42 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pb-20"
              x-data="{
                  search: '{{ $searchQuery ?? '' }}',
-                 activeCategory: '{{ $activeCategory ?? '' }}'
+                 activeCategory: '{{ $activeCategory ?? '' }}',
+                 showAllCategories: false
              }">
 
         {{-- Filter & Search Bar --}}
         <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10" data-aos="fade-up">
             {{-- Category Pills --}}
-            <div class="flex flex-wrap gap-2">
+            @php
+                $initialVisibleCategories = 6;
+            @endphp
+            <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('berita.index') }}" wire:navigate
                    class="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 {{ !$activeCategory ? 'bg-sky-500 text-white shadow-md shadow-sky-200' : 'bg-white border border-slate-200 text-slate-600 hover:border-sky-400 hover:text-sky-600' }}">
                     Semua
                 </a>
                 @foreach($categories as $cat)
                 <a href="{{ route('berita.index', ['kategori' => $cat]) }}" wire:navigate
+                   x-show="showAllCategories || {{ $loop->index < $initialVisibleCategories ? 'true' : 'false' }} || activeCategory === @js($cat)"
                    class="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 {{ $activeCategory === $cat ? 'bg-sky-500 text-white shadow-md shadow-sky-200' : 'bg-white border border-slate-200 text-slate-600 hover:border-sky-400 hover:text-sky-600' }}">
                     {{ $cat }}
                 </a>
                 @endforeach
+                @if($categories->count() > $initialVisibleCategories)
+                <button type="button"
+                        @click="showAllCategories = !showAllCategories"
+                        class="group inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold border border-sky-300/70 text-sky-700 bg-gradient-to-r from-sky-50 to-blue-50 shadow-sm hover:shadow-md hover:border-sky-400 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
+                    <span class="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white text-[10px] font-extrabold text-sky-600 ring-1 ring-sky-200">
+                        {{ $categories->count() }}
+                    </span>
+                    <span x-show="!showAllCategories" x-cloak>Lihat Kategori</span>
+                    <span x-show="showAllCategories" x-cloak>Sembunyikan</span>
+                    <svg class="w-4 h-4 transition-transform duration-300" :class="showAllCategories ? 'rotate-180' : 'rotate-0'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                @endif
             </div>
 
             {{-- Search --}}
