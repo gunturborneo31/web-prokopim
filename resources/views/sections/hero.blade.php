@@ -16,12 +16,12 @@
 		<div class="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
 			<div>
 				<p class="mb-4 text-sm font-medium text-white sm:text-base">
-					Selamat Datang diWebsite Resmi
+					Selamat Datang di Website Resmi
 				</p>
 
 				<h1 class="max-w-4xl text-3xl font-black leading-tight sm:text-4xl lg:text-5xl xl:text-6xl">
-					<span class="block uppercase tracking-tight text-amber-400">Bagian PROKOPIM</span>
-					<span class="mt-1 block uppercase tracking-tight text-amber-400">MAHAKAM ULU</span>
+					<span class="block uppercase tracking-tight text-white">Bagian PROKOPIM</span>
+					<span class="mt-1 block uppercase tracking-tight text-white">MAHAKAM ULU</span>
 				</h1>
 
 				<p class="mt-6 inline-block border-l-4 border-amber-400 pl-4 text-base font-semibold text-white/85 sm:text-lg">
