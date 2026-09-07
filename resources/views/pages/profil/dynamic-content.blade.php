@@ -218,15 +218,65 @@
                 @endif
 
                 @if($profilePage->template === 'galeri' && $galleryItems->isNotEmpty())
-                    <div class="mb-8 grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        @foreach($galleryItems as $galleryItem)
-                            <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-                                <img src="{{ $galleryItem['source'] }}" alt="{{ $galleryItem['caption'] ?: $mainTitle }}" class="w-full h-40 sm:h-48 object-cover">
-                                @if($galleryItem['caption'] !== '')
-                                    <figcaption class="px-3 py-2 text-xs text-slate-500 bg-white border-t border-slate-200">{{ $galleryItem['caption'] }}</figcaption>
-                                @endif
-                            </figure>
-                        @endforeach
+                    <div class="mb-8"
+                         x-data="{ lightboxOpen: false, activeIndex: 0, total: {{ $galleryItems->count() }},
+                                    prev() { this.activeIndex = (this.activeIndex - 1 + this.total) % this.total; },
+                                    next() { this.activeIndex = (this.activeIndex + 1) % this.total; } }"
+                         @keydown.escape.window="lightboxOpen = false"
+                         @keydown.arrow-left.window="if (lightboxOpen) prev()"
+                         @keydown.arrow-right.window="if (lightboxOpen) next()">
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            @foreach($galleryItems as $index => $galleryItem)
+                                <button type="button"
+                                        @click="activeIndex = {{ $index }}; lightboxOpen = true"
+                                        class="block w-full text-left group cursor-zoom-in">
+                                    <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                                        <img src="{{ $galleryItem['source'] }}" alt="{{ $galleryItem['caption'] ?: $mainTitle }}" class="w-full h-40 sm:h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                                        @if($galleryItem['caption'] !== '')
+                                            <figcaption class="px-3 py-2 text-xs text-slate-500 bg-white border-t border-slate-200">{{ $galleryItem['caption'] }}</figcaption>
+                                        @endif
+                                    </figure>
+                                </button>
+                            @endforeach
+                        </div>
+
+                        <!-- Lightbox Popup -->
+                        <div x-show="lightboxOpen" x-cloak
+                             x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                             x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                             class="fixed inset-0 z-[100] flex items-center justify-center bg-[#0f172a]/90 backdrop-blur-sm p-4 sm:p-8"
+                             @click.self="lightboxOpen = false"
+                             role="dialog" aria-modal="true">
+
+                            <button type="button" @click="lightboxOpen = false"
+                                    class="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors z-10">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+
+                            <button type="button" @click.stop="prev()" x-show="total > 1"
+                                    class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors z-10">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+
+                            @foreach($galleryItems as $index => $galleryItem)
+                                <div x-show="activeIndex === {{ $index }}" class="max-w-5xl w-full max-h-[85vh] flex flex-col items-center" @click.self="lightboxOpen = false">
+                                    <img src="{{ $galleryItem['source'] }}" alt="{{ $galleryItem['caption'] ?: $mainTitle }}" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl pointer-events-none">
+                                    @if($galleryItem['caption'] !== '')
+                                        <p class="mt-4 text-white/90 text-sm text-center max-w-2xl">{{ $galleryItem['caption'] }}</p>
+                                    @endif
+                                </div>
+                            @endforeach
+
+                            <button type="button" @click.stop="next()" x-show="total > 1"
+                                    class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors z-10">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                            </button>
+
+                            <span x-show="total > 1" class="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-xs font-bold tabular-nums z-10">
+                                <span x-text="activeIndex + 1"></span>/<span x-text="total"></span>
+                            </span>
+                        </div>
                     </div>
                 @endif
 
