@@ -123,6 +123,25 @@
             }
         }
 
+        // Template "galeri" stores its photos in content.images (a repeater of
+        // {image, caption}), separate from content.media_items used by other
+        // templates — map it into its own collection for the grid below.
+        $galleryItems = collect($content['images'] ?? [])
+            ->map(function ($item) use ($resolveMediaUrl) {
+                $source = $resolveMediaUrl($item['image'] ?? null);
+
+                if (blank($source)) {
+                    return null;
+                }
+
+                return [
+                    'source' => $source,
+                    'caption' => trim((string) ($item['caption'] ?? '')),
+                ];
+            })
+            ->filter()
+            ->values();
+
     @endphp
 
     <section class="relative pt-[100px] pb-20 overflow-hidden bg-[#274CA5]">
@@ -198,11 +217,26 @@
                     </div>
                 @endif
 
+                @if($profilePage->template === 'galeri' && $galleryItems->isNotEmpty())
+                    <div class="mb-8 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        @foreach($galleryItems as $galleryItem)
+                            <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                                <img src="{{ $galleryItem['source'] }}" alt="{{ $galleryItem['caption'] ?: $mainTitle }}" class="w-full h-40 sm:h-48 object-cover">
+                                @if($galleryItem['caption'] !== '')
+                                    <figcaption class="px-3 py-2 text-xs text-slate-500 bg-white border-t border-slate-200">{{ $galleryItem['caption'] }}</figcaption>
+                                @endif
+                            </figure>
+                        @endforeach
+                    </div>
+                @endif
+
                 <div class="prose prose-slate max-w-none">
                     @if($profilePage->template === 'blank_editor')
                         {!! filled($mainContent) ? str($mainContent)->markdown()->sanitizeHtml() : '<p>Konten belum tersedia.</p>' !!}
                     @elseif($profilePage->template === 'gambar_1' && blank($mainContent) && $mediaItems->isNotEmpty())
                         {{-- Template gambar_1 tidak memiliki field teks; gambar di atas sudah menjadi konten utama. --}}
+                    @elseif($profilePage->template === 'galeri' && blank($mainContent) && $galleryItems->isNotEmpty())
+                        {{-- Template galeri tidak memiliki field teks; foto-foto di atas sudah menjadi konten utama. --}}
                     @else
                         {!! $mainContent ?: '<p>Konten belum tersedia.</p>' !!}
                     @endif
