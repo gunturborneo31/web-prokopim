@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\DynamicPages\Pages;
 
 use App\Filament\Resources\DynamicPages\DynamicPageResource;
+use App\Models\DynamicPage;
 use Filament\Resources\Pages\Page;
 
 class SelectTemplatePage extends Page
@@ -14,6 +15,30 @@ class SelectTemplatePage extends Page
     public function getTitle(): string
     {
         return 'Pilih Template Halaman';
+    }
+
+    public function mount(): void
+    {
+        $menuId = request()->integer('menu_id');
+        if (! $menuId) {
+            return;
+        }
+
+        $menu = \App\Models\Menu::find($menuId);
+        $existingPage = $menu ? \App\Services\DynamicPageLinker::resolveForMenu($menu) : null;
+        if (! $existingPage) {
+            return;
+        }
+
+        $params = ['record' => $existingPage];
+
+        // Page was only found via its legacy link (menu_id still null) —
+        // pass link_menu_id so EditDynamicPage backfills the link on save.
+        if (blank($existingPage->menu_id)) {
+            $params['link_menu_id'] = $menuId;
+        }
+
+        $this->redirect(DynamicPageResource::getUrl('edit', $params));
     }
 
     protected function getHeaderActions(): array

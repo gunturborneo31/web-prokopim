@@ -54,6 +54,7 @@ class BlankEditor implements TemplateSchema
 
                             FileUpload::make('upload')
                                 ->label('Upload File')
+                                ->disk('public')
                                 ->directory('dynamic-pages/media')
                                 ->imageEditor()
                                 ->visible(fn ($get) => $get('type') === 'image')
@@ -61,6 +62,7 @@ class BlankEditor implements TemplateSchema
 
                             FileUpload::make('video_upload')
                                 ->label('Upload Video')
+                                ->disk('public')
                                 ->directory('dynamic-pages/media')
                                 ->acceptedFileTypes([
                                     'video/mp4',

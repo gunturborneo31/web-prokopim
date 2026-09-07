@@ -38,6 +38,7 @@ class LandingController extends Controller
                 'image' => $this->resolveMediaUrl($post->file?->storage_path ?? $post->file?->path, asset('images/desamahakamulu.jpg')),
                 'excerpt' => Str::limit(trim(strip_tags($post->content ?? '')), 160),
                 'slug' => $post->slug,
+                'url' => route('berita.show', $post->slug),
             ])
             ->values();
 

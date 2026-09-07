@@ -26,7 +26,7 @@ class Aparatur implements TemplateSchema
                             TextInput::make('content.main_leader.position')->label('Jabatan')->placeholder('INSPEKTUR')->columnSpan(6),
                             TextInput::make('content.main_leader.pangkat')->label('Pangkat')->columnSpan(6),
                             TextInput::make('content.main_leader.golongan')->label('Golongan')->columnSpan(6),
-                            FileUpload::make('content.main_leader.photo')->label('Foto Pimpinan Utama')->image()->directory('dynamic-pages/aparatur')->columnSpanFull(),
+                            FileUpload::make('content.main_leader.photo')->label('Foto Pimpinan Utama')->image()->disk('public')->directory('dynamic-pages/aparatur')->columnSpanFull(),
                         ])
                     ])
                 ])
@@ -41,7 +41,7 @@ class Aparatur implements TemplateSchema
                         TextInput::make('position')->label('Jabatan')->required()->columnSpan(6),
                         TextInput::make('pangkat')->label('Pangkat')->columnSpan(6),
                         TextInput::make('golongan')->label('Golongan')->columnSpan(6),
-                        FileUpload::make('photo')->label('Foto')->image()->directory('dynamic-pages/aparatur')->columnSpanFull(),
+                        FileUpload::make('photo')->label('Foto')->image()->disk('public')->directory('dynamic-pages/aparatur')->columnSpanFull(),
                     ])
                 ])
                 ->addActionLabel('+ Tambah Aparatur')

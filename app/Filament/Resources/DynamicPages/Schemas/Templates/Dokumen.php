@@ -164,6 +164,7 @@ class Dokumen implements TemplateSchema
                     FileUpload::make('file_url')
                         ->label('File PDF')
                         ->acceptedFileTypes(['application/pdf'])
+                        ->disk('public')
                         ->directory('dokumen-dinamis'),
                 ])
                 ->itemLabel(fn(array $state): ?string => $state['name'] ?? null),

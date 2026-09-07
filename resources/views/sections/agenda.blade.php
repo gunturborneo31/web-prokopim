@@ -23,9 +23,9 @@
                         <span class="text-[#274CA5] font-bold tracking-widest uppercase text-xs">Jadwal Kegiatan</span>
                     </div>
                     <h2 class="font-montserrat font-black text-4xl md:text-5xl lg:text-6xl leading-tight text-white drop-shadow-lg ">
-                        Agenda <span class="text-shadow-[0_0_10px_rgba(255,255,255,0.5)] text-[#0f2044]">Prokopim</span>
+                        Agenda Pemerintah<br>Kabupaten Mahakam Ulu
                     </h2>
-                    <p class="mt-6 text-white text-lg font-medium max-w-2xl mx-auto">Pantau jadwal kegiatan inspeksi, pengawasan, dan rapat koordinasi terbaru di lingkungan Pemerintah Kabupaten Mahakam Ulu.</p>
+                    <p class="hidden mt-6 text-white text-lg font-medium max-w-2xl mx-auto">Pantau jadwal kegiatan inspeksi, pengawasan, dan rapat koordinasi terbaru di lingkungan Pemerintah Kabupaten Mahakam Ulu.</p>
                 </div>
 
                 <!-- Carousel Wrapper Container -->

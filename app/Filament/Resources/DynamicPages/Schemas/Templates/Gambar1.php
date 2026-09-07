@@ -20,6 +20,7 @@ class Gambar1 implements TemplateSchema
                     FileUpload::make('content.image')
                         ->label('Upload Gambar')
                         ->image()
+                        ->disk('public')
                         ->directory('dynamic-pages')
                         ,
                     TextInput::make('content.caption')

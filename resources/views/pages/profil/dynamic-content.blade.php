@@ -55,9 +55,11 @@
             return asset('storage/' . ltrim($path, '/'));
         };
 
-        $imageSource = $resolveMediaUrl($content['image_upload'] ?? null) ?: trim((string) ($content['image_url'] ?? ''));
+        $imageSource = $resolveMediaUrl($content['image_upload'] ?? null)
+            ?: $resolveMediaUrl($content['image'] ?? null)
+            ?: trim((string) ($content['image_url'] ?? ''));
         $videoSource = $resolveMediaUrl($content['video_upload'] ?? null) ?: trim((string) ($content['video_url'] ?? ''));
-        $imageCaption = trim((string) ($content['image_caption'] ?? ''));
+        $imageCaption = trim((string) ($content['image_caption'] ?? ($content['caption'] ?? '')));
         $videoCaption = trim((string) ($content['video_caption'] ?? ''));
 
         $buildEmbedVideoUrl = function (?string $videoUrl): ?string {
@@ -166,7 +168,7 @@
                     <h2 class="text-2xl font-bold text-[#274CA5]">{{ $sectionTitle }}</h2>
                 </div>
 
-                @if($profilePage->template === 'blank_editor' && $mediaItems->isNotEmpty())
+                @if(in_array($profilePage->template, ['blank_editor', 'gambar_1'], true) && $mediaItems->isNotEmpty())
                     <div class="mb-8 space-y-6">
                         @foreach($mediaItems as $mediaItem)
                             <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
@@ -199,6 +201,8 @@
                 <div class="prose prose-slate max-w-none">
                     @if($profilePage->template === 'blank_editor')
                         {!! filled($mainContent) ? str($mainContent)->markdown()->sanitizeHtml() : '<p>Konten belum tersedia.</p>' !!}
+                    @elseif($profilePage->template === 'gambar_1' && blank($mainContent) && $mediaItems->isNotEmpty())
+                        {{-- Template gambar_1 tidak memiliki field teks; gambar di atas sudah menjadi konten utama. --}}
                     @else
                         {!! $mainContent ?: '<p>Konten belum tersedia.</p>' !!}
                     @endif

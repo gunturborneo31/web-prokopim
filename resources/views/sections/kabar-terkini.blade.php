@@ -12,6 +12,7 @@
                         'image' => asset('images/desamahakamulu.jpg'),
                         'excerpt' => 'Konten berita akan muncul di sini setelah dipublikasikan dari panel admin.',
                         'slug' => '#',
+                        'url' => route('berita.index'),
                     ]]))->values()->toJson() 
                 }},
                 get activeNews() { return this.news[this.activeIndex]; },
@@ -59,9 +60,9 @@
                                      x-transition:leave-end="-translate-y-full"
                                 >
                                     <div class="absolute inset-0 shimmer-bg z-0"></div>
-                                    <div class="absolute inset-0">
+                                    <a :href="item.url" :aria-label="item.title" class="absolute inset-0 block">
                                         <img :src="item.image" :alt="item.title" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
-                                    </div>
+                                    </a>
                                 </div>
                             </template>
 
@@ -69,20 +70,20 @@
                             <div class="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-8 pointer-events-none">
                                 <div class="absolute inset-x-0 bottom-0 h-44 md:h-56 bg-gradient-to-t from-[#274CA5]/95 via-[#274CA5]/70 to-transparent z-10"></div>
 
-                                <div class="max-w-3xl pointer-events-auto relative z-30">
+                                <a :href="activeNews.url" class="max-w-3xl pointer-events-auto relative z-30 block">
                                     <div class="inline-flex items-center gap-2 rounded-full bg-black/40 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white/90 backdrop-blur-sm border border-white/15 relative z-30">
                                         <span x-text="activeNews.category"></span>
                                         <span class="text-white/60">•</span>
                                         <span x-text="activeNews.date"></span>
                                     </div>
 
-                                    <h3 class="mt-3 text-white font-montserrat font-black text-lg md:text-3xl leading-tight line-clamp-2 relative z-30"
+                                    <h3 class="mt-3 text-white font-montserrat font-black text-lg md:text-3xl leading-tight line-clamp-2 relative z-30 hover:underline"
                                         style="text-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 0 18px rgba(0,0,0,0.3), 0 0 10px rgba(0,0,0,0.3);"
                                         x-text="activeNews.title"></h3>
 
                                     <h3 class="mt-3 text-white font-montserrat text-sm leading-tight  line-clamp-2 relative z-30"
                                     x-text="activeNews.excerpt"></h3>
-                                </div>
+                                </a>
 
                                 <!-- Slider Controls -->
                                 <div class="absolute top-4 right-4 md:top-6 md:right-6 flex items-center gap-2 z-30 pointer-events-auto">
@@ -103,8 +104,10 @@
                         <div class="relative flex-shrink-0 mt-4 z-30">
                             <div class="flex gap-1.5 sm:gap-3 overflow-x-hidden pt-2 pb-2 sm:pt-4 sm:pb-4 px-0.5">
                                 <template x-for="(item, index) in news" :key="'thumb-' + index">
-                                    <button @click="activeIndex = index"
-                                            class="flex-1 min-w-0 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 group text-left bg-white shadow-sm transform-gpu"
+                                    <a :href="item.url"
+                                            @mouseenter="activeIndex = index"
+                                            @click="activeIndex = index"
+                                            class="flex-1 min-w-0 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 group text-left bg-white shadow-sm transform-gpu block"
                                             :class="activeIndex === index ? 'border-[#274CA5] shadow-[0_4px_10px_-2px_rgba(163,230,53,0.3)] ring-2 ring-[#d9f99d] -translate-y-1 sm:-translate-y-3' : 'border-slate-100 hover:border-[#bbf7d0] hover:shadow-md hover:-translate-y-1 opacity-80 hover:opacity-100'">
                                         <div class="relative overflow-hidden" style="aspect-ratio:16/9;">
                                             <img :src="item.image" :alt="item.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
@@ -121,7 +124,7 @@
                                                x-text="item.title"></p>
                                             <span class="hidden sm:block text-[10px] text-slate-400 mt-0.5" x-text="item.date"></span>
                                         </div>
-                                    </button>
+                                    </a>
                                 </template>
                             </div>
                         </div>

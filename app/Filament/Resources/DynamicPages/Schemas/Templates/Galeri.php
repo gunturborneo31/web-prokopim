@@ -18,7 +18,7 @@ class Galeri implements TemplateSchema
             Repeater::make('content.images')
                 ->label('Daftar Foto Galeri')
                 ->schema([
-                    FileUpload::make('image')->label('Foto')->image()->directory('dynamic-pages')->required(),
+                    FileUpload::make('image')->label('Foto')->image()->disk('public')->directory('dynamic-pages')->required(),
                     TextInput::make('caption')->label('Caption'),
                 ])
                 ->grid(3),

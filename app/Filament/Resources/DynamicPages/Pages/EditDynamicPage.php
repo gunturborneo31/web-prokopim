@@ -13,6 +13,22 @@ class EditDynamicPage extends EditRecord
 {
     protected static string $resource = DynamicPageResource::class;
 
+    // Set when navigating from a menu whose page was only found via its legacy
+    // hardcoded link (e.g. "/profil/visi-misi") and menu_id is still null. See
+    // DynamicPageLinker and select-menu.blade.php for why this is needed.
+    public ?int $linkMenuId = null;
+
+    public function mount(int | string $record): void
+    {
+        parent::mount($record);
+
+        $linkMenuId = request()->integer('link_menu_id');
+
+        if ($linkMenuId && blank($this->record->menu_id)) {
+            $this->linkMenuId = $linkMenuId;
+        }
+    }
+
     public function getMaxContentWidth(): string
     {
         return 'full';
@@ -25,7 +41,9 @@ class EditDynamicPage extends EditRecord
         $data['slug'] = $this->record->slug;
         $data['template'] = $this->record->template;
         $data['menu_id'] = $this->record->menu_id;
-        $data['public_url'] = $this->record->menu?->link ?: '/halaman/' . $this->record->slug;
+
+        $pendingMenu = $this->linkMenuId ? \App\Models\Menu::find($this->linkMenuId) : null;
+        $data['public_url'] = $this->record->menu?->link ?: $pendingMenu?->link ?: '/halaman/' . $this->record->slug;
 
         if (($data['template'] ?? null) === 'blank_editor') {
             $content = $data['content'] ?? [];
@@ -47,6 +65,25 @@ class EditDynamicPage extends EditRecord
     {
         unset($data['public_url']);
 
+        // Backfill the menu_id link for legacy pages that were only discoverable
+        // via their hardcoded route (e.g. "/profil/visi-misi"), so the admin's
+        // "Pilih Menu Website" screen correctly detects this page next time
+        // instead of prompting to create a duplicate.
+        if ($this->linkMenuId && blank($data['menu_id'] ?? $this->record->menu_id)) {
+            $data['menu_id'] = $this->linkMenuId;
+        }
+
+        $oldTemplate = $this->record->template;
+        $newTemplate = $data['template'] ?? $oldTemplate;
+
+        if ($oldTemplate !== $newTemplate) {
+            $data['content'] = $this->migrateContentBetweenTemplates(
+                is_array($data['content'] ?? null) ? $data['content'] : [],
+                $oldTemplate,
+                $newTemplate,
+            );
+        }
+
         if (($data['template'] ?? null) === 'blank_editor') {
             $content = $data['content'] ?? [];
 
@@ -58,6 +95,41 @@ class EditDynamicPage extends EditRecord
         }
 
         return $data;
+    }
+
+    /**
+     * When the template is switched (e.g. "Penjelasan 2 Panel" -> "Penjelasan 1 Panel"),
+     * the underlying content fields differ ("box_1_content"/"box_2_content" vs "isi_konten").
+     * Without this, previously written text stays in the old fields and the new template
+     * renders empty ("Konten belum tersedia") even though the old data still exists.
+     */
+    private function migrateContentBetweenTemplates(array $content, ?string $oldTemplate, ?string $newTemplate): array
+    {
+        $textTemplates = ['penjelasan_1', 'penjelasan_2', 'blank_editor'];
+
+        if (! in_array($oldTemplate, $textTemplates, true) || ! in_array($newTemplate, $textTemplates, true)) {
+            return $content;
+        }
+
+        $legacyText = collect([
+            $content['isi_konten'] ?? null,
+            $content['editor'] ?? null,
+            trim(($content['box_1_content'] ?? '') . "\n\n" . ($content['box_2_content'] ?? '')),
+        ])
+            ->map(fn ($value) => $this->normalizeEditorContentToString($value))
+            ->first(fn ($value) => trim($value) !== '');
+
+        if (blank($legacyText)) {
+            return $content;
+        }
+
+        if (in_array($newTemplate, ['penjelasan_1', 'blank_editor'], true) && blank($content['isi_konten'] ?? null)) {
+            $content['isi_konten'] = $legacyText;
+        } elseif ($newTemplate === 'penjelasan_2' && blank($content['box_1_content'] ?? null)) {
+            $content['box_1_content'] = $legacyText;
+        }
+
+        return $content;
     }
 
     private function normalizeEditorContentToString(mixed $value): string

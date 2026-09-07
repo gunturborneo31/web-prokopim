@@ -36,7 +36,7 @@ class ProfilPimpinan implements TemplateSchema
                                         TextInput::make('golongan')->label('Golongan')->columnSpan(6),
                                         TextInput::make('pendidikan')->label('Pendidikan Terakhir')->columnSpan(6),
                                         Textarea::make('quote')->label('Kutipan / Motto')->columnSpan(12),
-                                        FileUpload::make('photo')->label('Foto Pimpinan')->image()->directory('dynamic-pages/leaders')->columnSpanFull(),
+                                        FileUpload::make('photo')->label('Foto Pimpinan')->image()->disk('public')->directory('dynamic-pages/leaders')->columnSpanFull(),
                                     ])
                                 ]),
                             Tabs\Tab::make('Riwayat Jabatan')

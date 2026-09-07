@@ -27,6 +27,25 @@ class CreateDynamicPage extends CreateRecord
     {
         parent::mount();
 
+        $menuId = request()->integer('menu_id');
+        if ($menuId) {
+            $menu = \App\Models\Menu::find($menuId);
+            $existingPage = $menu ? \App\Services\DynamicPageLinker::resolveForMenu($menu) : null;
+            if ($existingPage) {
+                $params = ['record' => $existingPage];
+
+                // Page was only found via its legacy link (menu_id still null) —
+                // pass link_menu_id so EditDynamicPage backfills the link on save.
+                if (blank($existingPage->menu_id)) {
+                    $params['link_menu_id'] = $menuId;
+                }
+
+                $this->redirect(DynamicPageResource::getUrl('edit', $params));
+
+                return;
+            }
+        }
+
         // Pre-fill from query params (passed from SelectTemplatePage)
         if (request()->has('template')) {
             $this->pageMenuId   = request()->integer('menu_id') ?: null;

@@ -1,27 +1,60 @@
 <x-filament-panels::page>
 
 @php
+    // Resolve a menu's page, whether properly linked via menu_id, or only
+    // discoverable through a legacy hardcoded link (e.g. "/profil/visi-misi").
+    // "needs_link" tells the frontend JS to pass along a query param so the
+    // edit screen can backfill menu_id on save instead of leaving it orphaned.
+    $resolvePage = function ($menu) {
+        $page = \App\Services\DynamicPageLinker::resolveForMenu($menu);
+
+        return [
+            'page_id'    => $page?->id,
+            'needs_link' => $page && $page->menu_id === null,
+        ];
+    };
+
     $menus = $this->getMenus();
-    $menusData = $menus->map(fn($m) => [
-        'id'       => $m->id,
-        'name'     => $m->name,
-        'page_id'  => \App\Models\DynamicPage::where('menu_id', $m->id)->value('id'),
-        'children' => $m->children->map(fn($c) => [
-            'id'       => $c->id,
-            'name'     => $c->name,
-            'page_id'  => \App\Models\DynamicPage::where('menu_id', $c->id)->value('id'),
-            'children' => $c->children->map(fn($g) => [
-                'id'    => $g->id,
-                'name'  => $g->name,
-                'page_id' => \App\Models\DynamicPage::where('menu_id', $g->id)->value('id'),
-                'children' => $g->children->map(fn($gg) => [
-                    'id'    => $gg->id,
-                    'name'  => $gg->name,
-                    'page_id' => \App\Models\DynamicPage::where('menu_id', $gg->id)->value('id'),
-                ])->values()->all(),
-            ])->values()->all(),
-        ])->values()->all(),
-    ])->values()->all();
+    $menusData = $menus->map(function ($m) use ($resolvePage) {
+        $mPage = $resolvePage($m);
+
+        return [
+            'id'       => $m->id,
+            'name'     => $m->name,
+            'page_id'  => $mPage['page_id'],
+            'needs_link' => $mPage['needs_link'],
+            'children' => $m->children->map(function ($c) use ($resolvePage) {
+                $cPage = $resolvePage($c);
+
+                return [
+                    'id'       => $c->id,
+                    'name'     => $c->name,
+                    'page_id'  => $cPage['page_id'],
+                    'needs_link' => $cPage['needs_link'],
+                    'children' => $c->children->map(function ($g) use ($resolvePage) {
+                        $gPage = $resolvePage($g);
+
+                        return [
+                            'id'    => $g->id,
+                            'name'  => $g->name,
+                            'page_id' => $gPage['page_id'],
+                            'needs_link' => $gPage['needs_link'],
+                            'children' => $g->children->map(function ($gg) use ($resolvePage) {
+                                $ggPage = $resolvePage($gg);
+
+                                return [
+                                    'id'    => $gg->id,
+                                    'name'  => $gg->name,
+                                    'page_id' => $ggPage['page_id'],
+                                    'needs_link' => $ggPage['needs_link'],
+                                ];
+                            })->values()->all(),
+                        ];
+                    })->values()->all(),
+                ];
+            })->values()->all(),
+        ];
+    })->values()->all();
     $editBaseUrl = \App\Filament\Resources\DynamicPages\DynamicPageResource::getUrl('index'); 
     $selectBaseUrl = route('filament.admin.resources.dynamic-pages.select-template');
 @endphp
@@ -354,6 +387,17 @@
             // Child links can just use javascript scroll or click to activate themselves!
             return 'javascript:window.smvActivate(' + id + ', true)'; 
         }
+
+        // Build the edit URL for a menu's page. When the page was only found via
+        // its legacy hardcoded link (menu_id not yet set), pass link_menu_id so
+        // EditDynamicPage can backfill the link on save instead of staying orphaned.
+        function editUrl(menu) {
+            var url = editBase + '/' + menu.page_id + '/edit';
+            if (menu.needs_link) {
+                url += '?link_menu_id=' + menu.id;
+            }
+            return url;
+        }
         
         // Find recursive flat list of all menus to quickly locate by id
         const flatMenus = [];
@@ -390,7 +434,7 @@
             /* Auto-redirect for leaf nodes (no sub-menus) *only* if triggered by manual click */
             if (isClick && (!menu.children || menu.children.length === 0)) {
                 if (menu.page_id) {
-                    window.location.href = editBase + '/' + menu.page_id + '/edit';
+                    window.location.href = editUrl(menu);
                 } else {
                     window.location.href = selectBase + '?menu_id=' + menu.id + '&menu_name=' + encodeURIComponent(menu.name);
                 }
@@ -416,7 +460,7 @@
             
             // Generate exact 1-to-1 URL depending on whether page exists
             if (menu.page_id) {
-                document.getElementById('smv-cta').href = editBase + '/' + menu.page_id + '/edit';
+                document.getElementById('smv-cta').href = editUrl(menu);
                 document.getElementById('smv-cta-text').textContent = lang.btnEdit;
             } else {
                 document.getElementById('smv-cta').href = selectBase + '?menu_id=' + menu.id + '&menu_name=' + encodeURIComponent(menu.name);
