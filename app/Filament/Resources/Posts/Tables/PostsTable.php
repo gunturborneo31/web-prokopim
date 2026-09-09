@@ -67,9 +67,10 @@ class PostsTable
                     ->searchable()
                     ->placeholder('-')
                     ->alignCenter(),
-                TextColumn::make('views')
+                TextColumn::make('read')
                     ->label(__('DIBACA'))
                     ->numeric()
+                    ->sortable()
                     ->alignCenter(),
                 TextColumn::make('created_at')
                     ->label(__('DIBUAT'))
