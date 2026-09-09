@@ -21,7 +21,7 @@
 </video>
 	</div>
 
-	<div class="absolute inset-0 -z-20 bg-[#07122c]/40"></div>
+	<div class="absolute inset-0 -z-20 bg-[#07122c]/60"></div>
 	<div class="absolute inset-0 -z-10 bg-[radial-gradient(1200px_500px_at_20%_50%,rgba(39,76,165,0.55),transparent_60%),radial-gradient(850px_420px_at_85%_20%,rgba(245,158,11,0.16),transparent_55%)]"></div>
 
 	<div class="pointer-events-none absolute inset-0 -z-10 opacity-20" style="background-image: linear-gradient(115deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0.08) 55%, rgba(255,255,255,0) 100%);"></div>

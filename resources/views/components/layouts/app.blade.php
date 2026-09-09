@@ -10,6 +10,17 @@
     <meta name="author" content="PROKOPIM Kabupaten Mahakam Ulu">
     <meta name="robots" content="index, follow">
 
+    @php
+        $socialImage = $metaImage ?? asset('images/slider_fix.png');
+        $socialImagePath = parse_url($socialImage, PHP_URL_PATH) ?? $socialImage;
+        $socialImageExt = strtolower(pathinfo($socialImagePath, PATHINFO_EXTENSION));
+        $socialImageType = match ($socialImageExt) {
+            'png' => 'image/png',
+            'jpg', 'jpeg' => 'image/jpeg',
+            default => 'image/webp',
+        };
+    @endphp
+
     {{-- Security Meta Tags --}}
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
@@ -20,14 +31,24 @@
     <meta property="og:description" content="{{ $metaDescription ?? 'Portal resmi PROKOPIM Kabupaten Mahakam Ulu — Merajut perencanaan pembangunan yang inovatif dan berkelanjutan.' }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('images/Mahakam_Ulu.webp') }}">
+    <meta property="og:image" content="{{ $socialImage }}">
+    <meta property="og:image:secure_url" content="{{ $socialImage }}">
+    <meta property="og:image:type" content="{{ $socialImageType }}">
+    <meta property="og:image:width" content="1518">
+    <meta property="og:image:height" content="640">
+    <meta property="og:image:alt" content="{{ $pageTitle ?? config('app.name', 'PROKOPIM Mahakam Ulu') }}">
     <meta property="og:site_name" content="PROKOPIM Mahakam Ulu">
     <meta property="og:locale" content="id_ID">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $pageTitle ?? config('app.name', 'PROKOPIM Mahakam Ulu') }}">
+    <meta name="twitter:description" content="{{ $metaDescription ?? 'Portal resmi PROKOPIM Kabupaten Mahakam Ulu — Merajut perencanaan pembangunan yang inovatif dan berkelanjutan.' }}">
+    <meta name="twitter:image" content="{{ $socialImage }}">
 
     {{-- Canonical URL --}}
     <link rel="canonical" href="{{ url()->current() }}">
 
-    <title>{{ config('app.name', 'PROKOPIM Mahakam Ulu') }}</title>
+    <title>{{ $pageTitle ?? config('app.name', 'PROKOPIM Mahakam Ulu') }}</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/webp" href="{{ asset('images/Mahakam_Ulu.webp') }}">
