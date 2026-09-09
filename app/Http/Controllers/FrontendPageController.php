@@ -15,6 +15,7 @@ use App\Models\WbsAbout;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -50,7 +51,7 @@ class FrontendPageController extends Controller
 
             'profil_pimpinan' => view('pages.profil.dynamic-pimpinan', [
                 'profilePage' => $page,
-                'leaders' => LeaderProfile::query()->where('status', true)->with('histories')->orderBy('order')->get(),
+                'leaders' => $this->resolveLeaders($page),
             ]),
 
             'dokumen_grid', 'dokumen_list' => $this->renderDynamicLibraryPage($page),
@@ -87,11 +88,7 @@ class FrontendPageController extends Controller
     public function showLeaderProfile()
     {
         $profilePage = $this->findDynamicPage('pimpinan', 'profil', ['profil_pimpinan']);
-        $leaders = LeaderProfile::query()
-            ->where('status', true)
-            ->with('histories')
-            ->orderBy('order')
-            ->get();
+        $leaders = $this->resolveLeaders($profilePage);
 
         if (! $profilePage && $leaders->isEmpty()) {
             $legacyView = $this->legacyView('pages.profil.pimpinan');
@@ -105,6 +102,50 @@ class FrontendPageController extends Controller
             'profilePage' => $profilePage,
             'leaders' => $leaders,
         ]);
+    }
+
+    private function resolveLeaders(?DynamicPage $page): Collection
+    {
+        $contentLeaders = collect(data_get($page?->content, 'leaders', []))
+            ->filter(fn ($leader) => is_array($leader))
+            ->filter(fn (array $leader) => filled(data_get($leader, 'name')) || filled(data_get($leader, 'position')))
+            ->values()
+            ->map(function (array $leader) {
+                $histories = collect(data_get($leader, 'histories', []))
+                    ->filter(fn ($history) => is_array($history))
+                    ->map(fn (array $history) => (object) [
+                        'year_start' => data_get($history, 'year_start'),
+                        'year_end' => data_get($history, 'year_end'),
+                        'position' => data_get($history, 'position'),
+                        'institution' => data_get($history, 'institution'),
+                        'description' => data_get($history, 'description'),
+                        'is_current' => (bool) data_get($history, 'is_current'),
+                    ])
+                    ->values();
+
+                return (object) [
+                    'label' => data_get($leader, 'label'),
+                    'name' => data_get($leader, 'name'),
+                    'position' => data_get($leader, 'position'),
+                    'nip' => data_get($leader, 'nip'),
+                    'pangkat' => data_get($leader, 'pangkat'),
+                    'golongan' => data_get($leader, 'golongan'),
+                    'pendidikan' => data_get($leader, 'pendidikan'),
+                    'photo' => data_get($leader, 'photo'),
+                    'quote' => data_get($leader, 'quote'),
+                    'histories' => $histories,
+                ];
+            });
+
+        if ($contentLeaders->isNotEmpty()) {
+            return $contentLeaders;
+        }
+
+        return LeaderProfile::query()
+            ->where('status', true)
+            ->with('histories')
+            ->orderBy('order')
+            ->get();
     }
 
     public function showAparatur()

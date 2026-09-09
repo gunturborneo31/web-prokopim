@@ -1,13 +1,27 @@
-﻿<section class="relative isolate overflow-hidden py-8 sm:py-10 lg:py-12">
+﻿<section class="relative isolate overflow-hidden py-8 sm:py-10 lg:py-8">
 	<div class="absolute inset-0 -z-30">
-		<img
-			src="{{ asset('images/mahakam_ulu_nature.png') }}"
-			alt="Lanskap Kabupaten Mahakam Ulu"
-			class="h-full w-full object-cover"
-		>
+		
+	<video 
+  autoplay 
+  loop 
+  muted 
+  playsinline 
+  preload="metadata" 
+  poster="cover.webp"
+  style="width: 100%; height: auto;" class="h-full w-full object-cover">
+  
+  <!-- Browser modern (Chrome/Firefox) memilih WebM lebih dahulu (file lebih kecil) -->
+  <source src="{{ asset('images/output.webm') }}" type="video/webm">  
+  
+  <!-- Safari/iOS & browser lain menggunakan MP4 FastStart -->
+  <source src="{{ asset('images/output.mp4') }}" type="video/mp4">
+
+  
+  Browser Anda tidak mendukung tag video.
+</video>
 	</div>
 
-	<div class="absolute inset-0 -z-20 bg-[#07122c]/75"></div>
+	<div class="absolute inset-0 -z-20 bg-[#07122c]/40"></div>
 	<div class="absolute inset-0 -z-10 bg-[radial-gradient(1200px_500px_at_20%_50%,rgba(39,76,165,0.55),transparent_60%),radial-gradient(850px_420px_at_85%_20%,rgba(245,158,11,0.16),transparent_55%)]"></div>
 
 	<div class="pointer-events-none absolute inset-0 -z-10 opacity-20" style="background-image: linear-gradient(115deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0.08) 55%, rgba(255,255,255,0) 100%);"></div>
