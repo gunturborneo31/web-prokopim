@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -40,11 +41,19 @@ class PostsTable
                         $colorIndex = abs($hash) % count($colors);
                         [$bg, $text] = $colors[$colorIndex];
 
+                        $hiddenBadge = '';
+                        if ($record->category?->slug === 'uncategorized') {
+                            $hiddenBadge = "<span class='inline-flex items-start px-2 py-0.5 rounded text-xs font-bold mr-2 mb-1 bg-gray-200 text-gray-600 border border-gray-300' title='" . __('Tidak tampil di daftar & pencarian Berita publik, hanya bisa diakses lewat tautan langsung') . "'>"
+                                . '🔒 ' . __('TERSEMBUNYI')
+                                . '</span>';
+                        }
+
                         return new \Illuminate\Support\HtmlString("
                             <div class='flex flex-wrap items-start gap-y-1'>
                                 <span class='inline-flex items-start px-2 py-0.5 rounded text-xs font-bold mr-2 mb-1' style='background-color: {$bg}; color: {$text}; border: 1px solid {$bg};'>
                                     " . strtoupper(__(strtolower($categoryName))) . "
                                 </span>
+                                {$hiddenBadge}
                                 <span class='font-medium text-gray-900 dark:text-white'>" . \Illuminate\Support\Str::limit($state, 100) . "</span>
                             </div>
                         ");
@@ -83,6 +92,16 @@ class PostsTable
                     ->label(__('Kategori')),
             ])
             ->actions([
+                Action::make('view')
+                    ->label(__('Lihat'))
+                    ->icon('heroicon-o-eye')
+                    ->iconButton()
+                    ->tooltip(fn (\App\Models\Post $record) => $record->category?->slug === 'uncategorized'
+                        ? __('Lihat/salin tautan langsung (tersembunyi dari daftar publik)')
+                        : __('Lihat di halaman publik'))
+                    ->url(fn (\App\Models\Post $record) => route('berita.show', $record->slug))
+                    ->openUrlInNewTab(),
+
                 EditAction::make()
                     ->iconButton()
                     ->tooltip(__('Ubah')),
