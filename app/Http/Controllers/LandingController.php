@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\BeritaVisualIg;
 use App\Models\LeaderProfile;
 use App\Models\Post;
 use App\Models\Service;
 use App\Models\Slider;
 use App\Models\WebsiteIdentity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -25,6 +27,7 @@ class LandingController extends Controller
         $posts = Post::query()
             ->with(['category', 'file'])
             ->where('status', 1)
+            ->whereHas('category', fn ($query) => $query->where('slug', '!=', 'uncategorized'))
             ->orderByDesc('published_at')
             ->orderByDesc('id')
             ->take(6)
@@ -42,7 +45,7 @@ class LandingController extends Controller
             ])
             ->values();
 
-        $pengumumanItems = Slider::query()
+        $sliderItems = Slider::query()
             ->with('file')
             ->where('status', 1)
             ->orderByDesc('is_pinned')
@@ -50,10 +53,41 @@ class LandingController extends Controller
             ->take(5)
             ->get()
             ->map(fn (Slider $slider) => [
-                'title' => $slider->caption ?: 'Pengumuman',
+                'title' => $slider->caption ?: 'Slider',
                 'description' => $slider->description,
                 'image' => $this->resolveMediaUrl($slider->file?->storage_path ?? $slider->file?->path, asset('images/desamahakamulu.jpg')),
                 'link' => $slider->link,
+            ])
+            ->values();
+
+        $pengumumanItems = Post::query()
+            ->with(['category', 'file'])
+            ->where('status', 1)
+            ->whereHas('category', function (Builder $query) {
+                $query->where('slug', 'pengumuman')
+                    ->orWhereRaw('LOWER(name) = ?', ['pengumuman'])
+                    ->orWhereRaw('LOWER(name) LIKE ?', ['%pengumuman%']);
+            })
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->take(5)
+            ->get()
+            ->map(fn (Post $post) => [
+                'title' => $post->title,
+                'description' => Str::limit(trim(strip_tags($post->content ?? '')), 160),
+                'image' => $this->resolveMediaUrl($post->file?->storage_path ?? $post->file?->path, asset('images/desamahakamulu.jpg')),
+                'link' => route('pengumuman.show', $post->slug),
+            ])
+            ->values();
+
+        $beritaVisualIgItems = BeritaVisualIg::query()
+            ->where('is_active', true)
+            ->take(12)
+            ->get()
+            ->map(fn (BeritaVisualIg $item) => [
+                'title' => $item->title,
+                'image' => $this->resolveMediaUrl($item->image, asset('images/desamahakamulu.jpg')),
+                'link' => $item->link,
             ])
             ->values();
 
@@ -88,7 +122,9 @@ class LandingController extends Controller
             'site' => $site,
             'leader' => $leader,
             'featuredNewsItems' => $featuredNewsItems,
+            'sliderItems' => $sliderItems,
             'pengumumanItems' => $pengumumanItems,
+            'beritaVisualIgItems' => $beritaVisualIgItems,
             'agendaItems' => $agendaItems,
             'agendaTotalCount' => $agendaTotalCount,
             'allLinks' => $allLinks,

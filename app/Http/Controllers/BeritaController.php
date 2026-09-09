@@ -12,11 +12,13 @@ class BeritaController extends Controller
     public function index(Request $request)
     {
         $searchQuery = trim((string) $request->string('q'));
+        $activeTag = trim((string) $request->string('tag'));
         $activeCategory = trim((string) $request->string('kategori'));
 
         $baseQuery = Post::query()
             ->with(['category', 'file'])
-            ->where('status', 1);
+            ->where('status', 1)
+            ->whereHas('category', fn ($query) => $query->where('slug', '!=', 'uncategorized'));
 
         if ($searchQuery !== '') {
             $baseQuery->where(function ($query) use ($searchQuery) {
@@ -26,7 +28,11 @@ class BeritaController extends Controller
         }
 
         if ($activeCategory !== '') {
-            $baseQuery->whereHas('category', fn ($query) => $query->where('name', $activeCategory));
+            $baseQuery->whereHas('category', fn ($query) => $query->where('slug', $activeCategory));
+        }
+
+        if ($activeTag !== '') {
+            $baseQuery->whereJsonContains('tags', $activeTag);
         }
 
         $featuredPost = (clone $baseQuery)
@@ -43,9 +49,11 @@ class BeritaController extends Controller
 
         $categories = PostCategory::query()
             ->where('active', true)
+            ->where('slug', '!=', 'uncategorized')
             ->orderBy('name')
-            ->pluck('name')
-            ->values();
+            ->get(['name', 'slug']);
+
+        $hashtags = $this->popularHashtags();
 
         return view('pages.berita.index', [
             'featuredNews' => $featuredPost ? $this->transformPost($featuredPost) : [
@@ -59,8 +67,10 @@ class BeritaController extends Controller
             ],
             'allNews' => $allNews,
             'categories' => $categories,
+            'hashtags' => $hashtags,
             'searchQuery' => $searchQuery,
             'activeCategory' => $activeCategory,
+            'activeTag' => $activeTag,
         ]);
     }
 
@@ -103,6 +113,27 @@ class BeritaController extends Controller
                 ->map(fn (Post $item) => $this->transformPost($item))
                 ->values(),
         ]);
+    }
+
+    /**
+     * Kumpulkan hashtag (tags) yang paling sering dipakai dari tulisan yang tampil publik,
+     * dipakai sebagai filter tambahan (di samping filter Kategori) di halaman daftar berita.
+     */
+    private function popularHashtags(int $limit = 20)
+    {
+        return Post::query()
+            ->where('status', 1)
+            ->whereHas('category', fn ($query) => $query->where('slug', '!=', 'uncategorized'))
+            ->whereNotNull('tags')
+            ->pluck('tags')
+            ->flatMap(fn ($tags) => is_array($tags) ? $tags : [])
+            ->map(fn ($tag) => trim((string) $tag))
+            ->filter(fn ($tag) => $tag !== '')
+            ->countBy()
+            ->sortDesc()
+            ->take($limit)
+            ->keys()
+            ->values();
     }
 
     private function transformPost($post, bool $includeContent = false): array

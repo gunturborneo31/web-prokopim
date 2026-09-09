@@ -1,4 +1,8 @@
 <x-layouts.app>
+    <x-slot name="pageTitle">{{ $news['title'] }} | PROKOPIM Mahakam Ulu</x-slot>
+    <x-slot name="metaDescription">{{ $news['excerpt'] }}</x-slot>
+    <x-slot name="metaImage">{{ $news['image'] }}</x-slot>
+
     {{-- ===================== PAGE HERO BANNER ===================== --}}
     <section class="relative pt-[100px] pb-20 overflow-hidden bg-[#274CA5]">
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -134,12 +138,13 @@
                 {{-- Tags --}}
                 @if(!empty($news['tags']))
                 <div class="mt-10 pt-8 border-t border-slate-100">
-                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Tags</p>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Hashtag</p>
                     <div class="flex flex-wrap gap-2">
                         @foreach($news['tags'] as $tag)
-                        <span class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold hover:bg-sky-100 hover:text-sky-700 transition-colors cursor-default">
+                        <a href="{{ route('berita.index', ['tag' => $tag]) }}" wire:navigate
+                           class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold hover:bg-sky-100 hover:text-sky-700 transition-colors">
                             #{{ $tag }}
-                        </span>
+                        </a>
                         @endforeach
                     </div>
                 </div>

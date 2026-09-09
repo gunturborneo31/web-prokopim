@@ -101,76 +101,99 @@
              x-data="{
                  search: '{{ $searchQuery ?? '' }}',
                  activeCategory: '{{ $activeCategory ?? '' }}',
-                 showAllCategories: false
+                 activeTag: '{{ $activeTag ?? '' }}',
+                 showAllHashtags: false
              }">
 
         {{-- Filter & Search Bar --}}
-        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10" data-aos="fade-up">
-            {{-- Category Pills --}}
+        <div class="flex flex-col gap-4 mb-10" data-aos="fade-up">
+            <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+                {{-- Category Pills --}}
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-400 mr-1">Kategori:</span>
+                    <a href="{{ route('berita.index', $activeTag ? ['tag' => $activeTag] : []) }}" wire:navigate
+                       class="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 {{ !$activeCategory ? 'bg-[#274CA5] text-white shadow-md shadow-blue-200' : 'bg-white border border-slate-200 text-slate-600 hover:border-blue-400 hover:text-[#274CA5]' }}">
+                        Semua
+                    </a>
+                    @foreach($categories as $cat)
+                    <a href="{{ route('berita.index', array_filter(['kategori' => $cat->slug, 'tag' => $activeTag ?: null])) }}" wire:navigate
+                       class="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 {{ $activeCategory === $cat->slug ? 'bg-[#274CA5] text-white shadow-md shadow-blue-200' : 'bg-white border border-slate-200 text-slate-600 hover:border-blue-400 hover:text-[#274CA5]' }}">
+                        {{ $cat->name }}
+                    </a>
+                    @endforeach
+                </div>
+
+                {{-- Search --}}
+                <form method="GET" action="{{ route('berita.index') }}" class="relative flex-shrink-0 w-full md:w-72">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    @if($activeCategory)
+                        <input type="hidden" name="kategori" value="{{ $activeCategory }}">
+                    @endif
+                    @if($activeTag)
+                        <input type="hidden" name="tag" value="{{ $activeTag }}">
+                    @endif
+                    <input type="text" name="q" value="{{ $searchQuery }}"
+                           placeholder="Cari berita..."
+                           class="w-full pl-11 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition-all">
+                    @if($searchQuery)
+                    <a href="{{ route('berita.index', array_filter(['kategori' => $activeCategory ?: null, 'tag' => $activeTag ?: null])) }}" wire:navigate
+                       class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </a>
+                    @endif
+                </form>
+            </div>
+
+            {{-- Hashtag Pills --}}
             @php
-                $initialVisibleCategories = 6;
+                $initialVisibleHashtags = 6;
             @endphp
             <div class="flex flex-wrap items-center gap-2">
-                <a href="{{ route('berita.index') }}" wire:navigate
-                   class="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 {{ !$activeCategory ? 'bg-sky-500 text-white shadow-md shadow-sky-200' : 'bg-white border border-slate-200 text-slate-600 hover:border-sky-400 hover:text-sky-600' }}">
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-400 mr-1">Hashtag:</span>
+                <a href="{{ route('berita.index', $activeCategory ? ['kategori' => $activeCategory] : []) }}" wire:navigate
+                   class="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 {{ !$activeTag ? 'bg-sky-500 text-white shadow-md shadow-sky-200' : 'bg-white border border-slate-200 text-slate-600 hover:border-sky-400 hover:text-sky-600' }}">
                     Semua
                 </a>
-                @foreach($categories as $cat)
-                <a href="{{ route('berita.index', ['kategori' => $cat]) }}" wire:navigate
-                   x-show="showAllCategories || {{ $loop->index < $initialVisibleCategories ? 'true' : 'false' }} || activeCategory === @js($cat)"
-                   class="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 {{ $activeCategory === $cat ? 'bg-sky-500 text-white shadow-md shadow-sky-200' : 'bg-white border border-slate-200 text-slate-600 hover:border-sky-400 hover:text-sky-600' }}">
-                    {{ $cat }}
+                @foreach($hashtags as $tag)
+                <a href="{{ route('berita.index', array_filter(['kategori' => $activeCategory ?: null, 'tag' => $tag])) }}" wire:navigate
+                   x-show="showAllHashtags || {{ $loop->index < $initialVisibleHashtags ? 'true' : 'false' }} || activeTag === @js($tag)"
+                   class="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 {{ $activeTag === $tag ? 'bg-sky-500 text-white shadow-md shadow-sky-200' : 'bg-white border border-slate-200 text-slate-600 hover:border-sky-400 hover:text-sky-600' }}">
+                    #{{ $tag }}
                 </a>
                 @endforeach
-                @if($categories->count() > $initialVisibleCategories)
+                @if($hashtags->count() > $initialVisibleHashtags)
                 <button type="button"
-                        @click="showAllCategories = !showAllCategories"
+                        @click="showAllHashtags = !showAllHashtags"
                         class="group inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold border border-sky-300/70 text-sky-700 bg-gradient-to-r from-sky-50 to-blue-50 shadow-sm hover:shadow-md hover:border-sky-400 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
                     <span class="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white text-[10px] font-extrabold text-sky-600 ring-1 ring-sky-200">
-                        {{ $categories->count() }}
+                        {{ $hashtags->count() }}
                     </span>
-                    <span x-show="!showAllCategories" x-cloak>Lihat Kategori</span>
-                    <span x-show="showAllCategories" x-cloak>Sembunyikan</span>
-                    <svg class="w-4 h-4 transition-transform duration-300" :class="showAllCategories ? 'rotate-180' : 'rotate-0'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span x-show="!showAllHashtags" x-cloak>Lihat Hashtag</span>
+                    <span x-show="showAllHashtags" x-cloak>Sembunyikan</span>
+                    <svg class="w-4 h-4 transition-transform duration-300" :class="showAllHashtags ? 'rotate-180' : 'rotate-0'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
                 @endif
             </div>
-
-            {{-- Search --}}
-            <form method="GET" action="{{ route('berita.index') }}" class="relative flex-shrink-0 w-full md:w-72">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </div>
-                @if($activeCategory)
-                    <input type="hidden" name="kategori" value="{{ $activeCategory }}">
-                @endif
-                <input type="text" name="q" value="{{ $searchQuery }}"
-                       placeholder="Cari berita..."
-                       class="w-full pl-11 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition-all">
-                @if($searchQuery)
-                <a href="{{ route('berita.index', $activeCategory ? ['kategori' => $activeCategory] : []) }}" wire:navigate
-                   class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </a>
-                @endif
-            </form>
         </div>
 
         {{-- Results info --}}
-        @if($searchQuery || $activeCategory)
+        @if($searchQuery || $activeCategory || $activeTag)
         <div class="mb-6 flex items-center gap-2 text-sm text-slate-500" data-aos="fade-up">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             Menampilkan <span class="font-bold text-slate-700">{{ $allNews->total() }}</span> artikel
             @if($searchQuery) untuk "<span class="font-bold text-sky-600">{{ $searchQuery }}</span>" @endif
-            @if($activeCategory) dalam kategori "<span class="font-bold text-sky-600">{{ $activeCategory }}</span>" @endif
+            @if($activeCategory) dalam kategori "<span class="font-bold text-sky-600">{{ $categories->firstWhere('slug', $activeCategory)?->name ?? $activeCategory }}</span>" @endif
+            @if($activeTag) dengan hashtag "<span class="font-bold text-sky-600">#{{ $activeTag }}</span>" @endif
         </div>
         @endif
 
@@ -240,7 +263,7 @@
                 </svg>
             </div>
             <h3 class="text-xl font-bold text-slate-600 mb-2">Tidak Ada Berita Ditemukan</h3>
-            <p class="text-slate-400 text-sm mb-6">Coba ubah kata kunci atau kategori pencarian.</p>
+            <p class="text-slate-400 text-sm mb-6">Coba ubah kata kunci, kategori, atau hashtag pencarian.</p>
             <a href="{{ route('berita.index') }}" wire:navigate
                class="inline-flex items-center gap-2 px-6 py-3 bg-sky-500 text-white font-bold rounded-xl hover:bg-sky-600 transition-colors">
                 Lihat Semua Berita

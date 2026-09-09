@@ -1,0 +1,21 @@
+---
+deployment:
+  tasks:
+    # Perintah di bawah dijalankan otomatis oleh cPanel setiap kali Anda
+    # menekan tombol "Deploy HEAD Commit" pada fitur Git Version Control.
+    # Working directory saat task berjalan = root repository (= public_html).
+
+    # 1. Pasang/perbarui dependency PHP jika composer.lock berubah (aman dijalankan meski tidak ada perubahan).
+    - if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader --no-interaction; fi
+
+    # 2. Jalankan migrasi database (termasuk migrasi penyederhanaan kategori Berita/Pengumuman/Uncategorized).
+    - php artisan migrate --force
+
+    # 3. Bersihkan & bangun ulang cache konfigurasi, route, dan view agar perubahan langsung terpakai.
+    - php artisan optimize:clear
+    - php artisan config:cache
+    - php artisan route:cache
+    - php artisan view:cache
+
+    # 4. Pastikan symlink storage tetap ada (aman dijalankan berulang kali).
+    - php artisan storage:link || true

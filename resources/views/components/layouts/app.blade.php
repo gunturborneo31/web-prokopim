@@ -17,8 +17,36 @@
         $socialImageType = match ($socialImageExt) {
             'png' => 'image/png',
             'jpg', 'jpeg' => 'image/jpeg',
-            default => 'image/webp',
+            'webp' => 'image/webp',
+            default => 'image/jpeg',
         };
+
+        // Hitung dimensi asli gambar agar og:image:width/height selalu akurat.
+        // Dimensi yang salah/tidak sesuai aspek gambar sering membuat WhatsApp/Facebook
+        // menolak menampilkan thumbnail preview.
+        $socialImageWidth = 1200;
+        $socialImageHeight = 630;
+
+        $localImagePath = null;
+        if ($socialImagePath) {
+            $relativePath = ltrim($socialImagePath, '/');
+            $candidatePath = public_path($relativePath);
+            if (is_file($candidatePath)) {
+                $localImagePath = $candidatePath;
+            }
+        }
+
+        if ($localImagePath) {
+            $dimensions = \Illuminate\Support\Facades\Cache::remember(
+                'og_image_dimensions_' . md5($localImagePath) . '_' . filemtime($localImagePath),
+                now()->addDay(),
+                fn () => @getimagesize($localImagePath) ?: null
+            );
+
+            if ($dimensions) {
+                [$socialImageWidth, $socialImageHeight] = $dimensions;
+            }
+        }
     @endphp
 
     {{-- Security Meta Tags --}}
@@ -34,8 +62,8 @@
     <meta property="og:image" content="{{ $socialImage }}">
     <meta property="og:image:secure_url" content="{{ $socialImage }}">
     <meta property="og:image:type" content="{{ $socialImageType }}">
-    <meta property="og:image:width" content="1518">
-    <meta property="og:image:height" content="640">
+    <meta property="og:image:width" content="{{ $socialImageWidth }}">
+    <meta property="og:image:height" content="{{ $socialImageHeight }}">
     <meta property="og:image:alt" content="{{ $pageTitle ?? config('app.name', 'PROKOPIM Mahakam Ulu') }}">
     <meta property="og:site_name" content="PROKOPIM Mahakam Ulu">
     <meta property="og:locale" content="id_ID">

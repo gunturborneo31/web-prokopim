@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\PostCategories;
 
-use App\Filament\Resources\PostCategories\Pages\CreatePostCategory;
 use App\Filament\Resources\PostCategories\Pages\EditPostCategory;
 use App\Filament\Resources\PostCategories\Pages\ListPostCategories;
 use App\Filament\Resources\PostCategories\Schemas\PostCategoryForm;
@@ -70,7 +69,6 @@ class PostCategoryResource extends Resource
     {
         return [
             'index' => ListPostCategories::route('/'),
-            'create' => CreatePostCategory::route('/create'),
             'edit' => EditPostCategory::route('/{record}/edit'),
         ];
     }

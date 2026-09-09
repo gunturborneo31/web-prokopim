@@ -17,8 +17,9 @@ class PostCategoryForm
                     ->required(),
                 TextInput::make('slug')
                     ->label(__('Slug'))
-                    ->placeholder(__('Contoh: kategori-berita'))
-                    ->required(),
+                    ->disabled()
+                    ->dehydrated()
+                    ->helperText(__('Slug bersifat baku dan tidak dapat diubah karena dipakai sistem untuk mengenali kategori Berita, Pengumuman, dan Uncategorized.')),
                 TextInput::make('active')
                     ->label(__('Status Aktif'))
                     ->helperText(__('1 = Aktif, 0 = Tidak Aktif'))

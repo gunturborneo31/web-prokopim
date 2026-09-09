@@ -32,25 +32,23 @@ class PostForm
                                 Select::make('category_id')
                                     ->label(__('Kategori'))
                                     ->relationship('category', 'name')
-                                    ->searchable()
-                                    ->preload()
-                                    ->columnSpanFull()
-                                    ->createOptionForm([
-                                        TextInput::make('name')
-                                            ->label(__('Nama Kategori'))
-                                            ->required()
-                                            ->live(onBlur: true)
-                                            ->afterStateUpdated(fn(string $operation, $state, \Filament\Schemas\Components\Utilities\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null),
-                                        TextInput::make('slug')
-                                            ->label(__('Slug'))
-                                            ->required()
-                                            ->hidden(),
-                                    ]),
+                                    ->native(false)
+                                    ->required()
+                                    ->default(fn () => \App\Models\PostCategory::where('slug', 'berita')->value('id'))
+                                    ->helperText(__('Pilih "Uncategorized" agar tulisan ini disembunyikan dari daftar & pencarian Berita publik (hanya bisa diakses lewat tautan langsung).'))
+                                    ->columnSpanFull(),
                                 \Filament\Forms\Components\TagsInput::make('tags')
-                                    ->label(__('Tags'))
+                                    ->label(__('Hashtag'))
                                     ->columnSpanFull()
-                                    ->helperText(__('Ketika melakukan pengisian pada kolom ini tekan tombol enter'))
-                                    ->suggestions(\App\Models\PostCategory::pluck('name')->toArray()),
+                                    ->helperText(__('Tekan tombol enter setelah mengetik setiap hashtag. Hashtag ini dipakai sebagai filter di halaman daftar Berita.'))
+                                    ->suggestions(fn () => \App\Models\Post::query()
+                                        ->whereNotNull('tags')
+                                        ->pluck('tags')
+                                        ->flatMap(fn ($tags) => is_array($tags) ? $tags : [])
+                                        ->unique()
+                                        ->sort()
+                                        ->values()
+                                        ->all()),
                                 \Filament\Forms\Components\FileUpload::make('thumbnail')
                                     ->label(__('Thumbnail'))
                                     ->image()
