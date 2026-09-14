@@ -58,7 +58,7 @@ class LandingController extends Controller
             ->map(fn (Slider $slider) => [
                 'title' => $slider->caption ?: 'Slider',
                 'description' => $slider->description,
-                'image' => $this->resolveMediaUrl($slider->file?->storage_path ?? $slider->file?->path, asset('images/desamahakamulu.jpg')),
+                'image' => $this->resolveSliderMediaUrl($slider->file?->storage_path ?? $slider->file?->path, asset('images/desamahakamulu.jpg')),
                 'link' => $slider->link,
             ])
             ->values();
@@ -209,6 +209,37 @@ class LandingController extends Controller
         }
 
         return $fallback;
+    }
+
+    private function resolveSliderMediaUrl(?string $path, string $fallback): string
+    {
+        if (blank($path)) {
+            return $fallback;
+        }
+
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        $normalizedPath = str_replace('\\', '/', trim($path));
+        $normalizedPath = ltrim($normalizedPath, '/');
+        $normalizedPath = preg_replace('#^(?:storage/app/public/|app/public/|public/storage/|public/)#i', '', $normalizedPath);
+        $normalizedPath = preg_replace('#^storage/#i', '', $normalizedPath);
+
+        if (blank($normalizedPath)) {
+            return $fallback;
+        }
+
+        $publicPathExists = Storage::disk('public')->exists($normalizedPath);
+        $localPathExists = Storage::disk('local')->exists($normalizedPath);
+
+        if (($publicPathExists || $localPathExists) && Route::has('media.public')) {
+            return route('media.public', ['path' => ltrim($normalizedPath, '/')], false);
+        }
+
+        return $publicPathExists
+            ? '/storage/' . ltrim($normalizedPath, '/')
+            : $fallback;
     }
 
     private function serviceLogoFallback(?string $serviceName): string
