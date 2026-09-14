@@ -477,7 +477,7 @@
                     $rawPath = $slider->file->storage_path ?? $slider->file->path ?? null;
 
                     if (filled($rawPath)) {
-                        if (str_starts_with($rawPath, ['http://', 'https://'])) {
+                        if (\Illuminate\Support\Str::startsWith($rawPath, ['http://', 'https://'])) {
                             $sliderImage = $rawPath;
                         } else {
                             $normalizedPath = str_replace('\\', '/', $rawPath);

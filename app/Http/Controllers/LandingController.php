@@ -11,6 +11,8 @@ use App\Models\Service;
 use App\Models\Slider;
 use App\Models\WebsiteIdentity;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -191,7 +193,20 @@ class LandingController extends Controller
             return $fallback;
         }
 
-        return route('media.public', ['path' => ltrim($normalizedPath, '/')]);
+        $publicPathExists = Storage::disk('public')->exists($normalizedPath);
+        $localPathExists = Storage::disk('local')->exists($normalizedPath);
+
+        if (! $publicPathExists && ! $localPathExists) {
+            return $fallback;
+        }
+
+        if (Route::has('media.public')) {
+            return route('media.public', ['path' => ltrim($normalizedPath, '/')]);
+        }
+
+        return $publicPathExists
+            ? Storage::disk('public')->url($normalizedPath)
+            : $fallback;
     }
 
     private function serviceLogoFallback(?string $serviceName): string

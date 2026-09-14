@@ -137,12 +137,6 @@
                         @endif
                     </div>
 
-                    <!-- Berita visual -->
-                    <div data-aos="fade-up" class="w-full lg:col-span-2">
-                        <div class="h-[90px] sm:h-[110px] rounded-[2rem] border border-slate-300/20 bg-white/80 p-6 flex items-center justify-center text-center">
-                            <p class="text-slate-700 font-semibold tracking-wide uppercase">Berita Visual</p>
-                        </div>
-                    </div>
                 </div>
 
             </div>
