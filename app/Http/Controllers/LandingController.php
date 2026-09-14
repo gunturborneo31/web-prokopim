@@ -201,11 +201,11 @@ class LandingController extends Controller
         }
 
         if (Route::has('media.public')) {
-            return route('media.public', ['path' => ltrim($normalizedPath, '/')]);
+            return route('media.public', ['path' => ltrim($normalizedPath, '/')], false);
         }
 
         return $publicPathExists
-            ? Storage::disk('public')->url($normalizedPath)
+            ? '/storage/' . ltrim($normalizedPath, '/')
             : $fallback;
     }
 

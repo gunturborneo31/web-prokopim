@@ -480,11 +480,15 @@
                         if (\Illuminate\Support\Str::startsWith($rawPath, ['http://', 'https://'])) {
                             $sliderImage = $rawPath;
                         } else {
-                            $normalizedPath = str_replace('\\', '/', $rawPath);
-                            $normalizedPath = preg_replace('#^/?storage/#i', '', $normalizedPath);
+                            $normalizedPath = str_replace('\\', '/', trim($rawPath));
                             $normalizedPath = ltrim($normalizedPath, '/');
-                            $sliderImage = filled($normalizedPath)
-                                ? \Illuminate\Support\Facades\Storage::disk('public')->url($normalizedPath)
+                            $normalizedPath = preg_replace('#^(?:storage/app/public/|app/public/|public/storage/|public/)#i', '', $normalizedPath);
+                            $normalizedPath = preg_replace('#^storage/#i', '', $normalizedPath);
+                            $normalizedPath = ltrim((string) $normalizedPath, '/');
+                            $sliderImage = filled($normalizedPath) && (\Illuminate\Support\Facades\Storage::disk('public')->exists($normalizedPath) || \Illuminate\Support\Facades\Storage::disk('local')->exists($normalizedPath))
+                                ? (\Illuminate\Support\Facades\Route::has('media.public')
+                                    ? route('media.public', ['path' => $normalizedPath], false)
+                                    : '/storage/' . $normalizedPath)
                                 : asset('images/placeholder.jpg');
                         }
                     }

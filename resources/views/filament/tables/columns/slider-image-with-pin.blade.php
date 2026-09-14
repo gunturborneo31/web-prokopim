@@ -9,12 +9,17 @@
            if (\Illuminate\Support\Str::startsWith($rawPath, ['http://', 'https://'])) {
                $imagePath = $rawPath;
            } else {
-               $normalizedPath = str_replace('\\', '/', $rawPath);
-               $normalizedPath = preg_replace('#^/?storage/#i', '', $normalizedPath);
-               $normalizedPath = ltrim($normalizedPath, '/');
-               $imagePath = filled($normalizedPath)
-                   ? \Illuminate\Support\Facades\Storage::disk('public')->url($normalizedPath)
-                   : asset('images/placeholder.jpg');
+              $normalizedPath = str_replace('\\', '/', trim($rawPath));
+              $normalizedPath = ltrim($normalizedPath, '/');
+              $normalizedPath = preg_replace('#^(?:storage/app/public/|app/public/|public/storage/|public/)#i', '', $normalizedPath);
+              $normalizedPath = preg_replace('#^storage/#i', '', $normalizedPath);
+              $normalizedPath = ltrim((string) $normalizedPath, '/');
+
+              if (filled($normalizedPath) && (\Illuminate\Support\Facades\Storage::disk('public')->exists($normalizedPath) || \Illuminate\Support\Facades\Storage::disk('local')->exists($normalizedPath))) {
+                  $imagePath = \Illuminate\Support\Facades\Route::has('media.public')
+                      ? route('media.public', ['path' => $normalizedPath], false)
+                      : '/storage/' . $normalizedPath;
+              }
            }
         }
     }
