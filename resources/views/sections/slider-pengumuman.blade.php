@@ -5,7 +5,6 @@
             $announcementSlides = !empty($pengumumanGambarItems) && count($pengumumanGambarItems) > 0
                 ? $pengumumanGambarItems
                 : ($pengumumanItems ?? []);
-            $visualSlides = $beritaVisualIgItems ?? [];
         @endphp
 
         <section class="py-16 relative bg-white"
@@ -14,8 +13,6 @@
                 totalSlides: {{ count($sliderItems ?? []) }},
                 announcementSlide: 0,
                 totalAnnouncements: {{ count($announcementSlides ?? []) }},
-                visualSlide: 0,
-                totalVisuals: {{ count($visualSlides ?? []) }},
                 isModalOpen: false,
                 modalImageSrc: ''
             }"
@@ -26,16 +23,13 @@
                 if (totalAnnouncements > 1) {
                     setInterval(() => { announcementSlide = (announcementSlide + 1) % totalAnnouncements }, 4200)
                 }
-                if (totalVisuals > 1) {
-                    setInterval(() => { visualSlide = (visualSlide + 1) % totalVisuals }, 4600)
-                }
             "
             @keydown.escape.window="isModalOpen = false">
             <div class="container mx-auto px-4 sm:px-6 lg:px-12 mt-8">
-                <div class="mx-auto grid w-full max-w-[1500px] grid-cols-1 gap-4 lg:grid-cols-[minmax(0,2.8fr)_minmax(200px,0.9fr)_minmax(200px,0.9fr)] lg:gap-5 items-stretch">
+                <div class="mx-auto grid w-full max-w-[1500px] grid-cols-1 gap-4 lg:grid-cols-[minmax(0,3.2fr)_minmax(340px,1.4fr)] lg:gap-6 items-stretch">
                     <!-- Slider utama -->
                     <div data-aos="fade-right" class="relative justify-self-center rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-300/20 group border border-slate-200/70 bg-slate-50
-                        h-[220px] sm:h-[250px] lg:h-[320px] xl:h-[360px] min-h-[220px] sm:min-h-[250px] lg:min-h-[320px] xl:min-h-[360px] w-full">
+                        h-[260px] sm:h-[320px] lg:h-[420px] xl:h-[480px] min-h-[260px] sm:min-h-[320px] lg:min-h-[420px] xl:min-h-[480px] w-full">
                         <!-- Shimmer skeleton -->
                         <div class="absolute inset-0 shimmer-bg z-0"></div>
                         <!-- Slides -->
@@ -91,7 +85,7 @@
                     <!-- Pengumuman gambar -->
                     <div data-aos="fade-up" class="w-full">
                         @if(!empty($announcementSlides) && count($announcementSlides) > 0)
-                        <div class="relative h-[240px] sm:h-[280px] lg:h-[320px] xl:h-[360px] overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-100 shadow-xl shadow-slate-300/20">
+                        <div class="relative h-[260px] sm:h-[320px] lg:h-[420px] xl:h-[480px] overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-100 shadow-xl shadow-slate-300/20">
                             @foreach($announcementSlides as $index => $pengumuman)
                             <a href="{{ !empty($pengumuman['link']) ? $pengumuman['link'] : '#' }}"
                                 class="absolute inset-0 block group"
@@ -121,49 +115,17 @@
                             @endforeach
                         </div>
                         @else
-                        <div class="h-[240px] sm:h-[280px] lg:h-[320px] xl:h-[360px] rounded-[2rem] border border-slate-300/20 bg-white/80 p-6 flex items-center justify-center text-center">
+                        <div class="h-[260px] sm:h-[320px] lg:h-[420px] xl:h-[480px] rounded-[2rem] border border-slate-300/20 bg-white/80 p-6 flex items-center justify-center text-center">
                             <p class="text-slate-600 font-medium">Belum ada pengumuman untuk ditampilkan.</p>
                         </div>
                         @endif
                     </div>
 
                     <!-- Berita visual -->
-                    <div data-aos="fade-up" class="w-full">
-                        @if(!empty($visualSlides) && count($visualSlides) > 0)
-                        <div class="relative h-[240px] sm:h-[280px] lg:h-[320px] xl:h-[360px] overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-100 shadow-xl shadow-slate-300/20">
-                            @foreach($visualSlides as $index => $visual)
-                            <a href="{{ !empty($visual['link']) ? $visual['link'] : '#' }}"
-                                class="absolute inset-0 block group"
-                                x-show="visualSlide === {{ $index }}"
-                                x-cloak
-                                @if (empty($visual['link'])) @click.prevent="isModalOpen = true; modalImageSrc = '{{ $visual['image'] }}'" @endif
-                                x-transition:enter="transition-all duration-700 ease-out"
-                                x-transition:enter-start="opacity-0 translate-y-3"
-                                x-transition:enter-end="opacity-100 translate-y-0"
-                                x-transition:leave="transition-all duration-500 ease-in"
-                                x-transition:leave-start="opacity-100 translate-y-0"
-                                x-transition:leave-end="opacity-0 -translate-y-3">
-                                <img src="{{ $visual['image'] }}"
-                                    alt="{{ $visual['title'] ?? 'Berita Visual' }}"
-                                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    loading="lazy">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-900/20 to-transparent"></div>
-                                <div class="absolute inset-x-0 top-0 flex items-start justify-between p-4">
-                                    @if(count($visualSlides) > 1)
-                                    <span class="rounded-full bg-slate-900/55 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">{{ $index + 1 }}/{{ count($visualSlides) }}</span>
-                                    @endif
-                                </div>
-                                <div class="absolute inset-x-0 bottom-0 p-4 text-white">
-                                    <p class="text-sm font-semibold leading-5 line-clamp-3">{{ $visual['title'] ?? 'Berita Visual' }}</p>
-                                </div>
-                            </a>
-                            @endforeach
+                    <div data-aos="fade-up" class="w-full lg:col-span-2">
+                        <div class="h-[90px] sm:h-[110px] rounded-[2rem] border border-slate-300/20 bg-white/80 p-6 flex items-center justify-center text-center">
+                            <p class="text-slate-700 font-semibold tracking-wide uppercase">Berita Visual</p>
                         </div>
-                        @else
-                        <div class="h-[240px] sm:h-[280px] lg:h-[320px] xl:h-[360px] rounded-[2rem] border border-slate-300/20 bg-white/80 p-6 flex items-center justify-center text-center">
-                            <p class="text-slate-600 font-medium">Belum ada berita visual untuk ditampilkan.</p>
-                        </div>
-                        @endif
                     </div>
                 </div>
 
