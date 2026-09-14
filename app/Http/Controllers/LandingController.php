@@ -200,13 +200,15 @@ class LandingController extends Controller
             return $fallback;
         }
 
-        if (Route::has('media.public')) {
+        if ($publicPathExists) {
+            return '/storage/' . ltrim($normalizedPath, '/');
+        }
+
+        if ($localPathExists && Route::has('media.public')) {
             return route('media.public', ['path' => ltrim($normalizedPath, '/')], false);
         }
 
-        return $publicPathExists
-            ? '/storage/' . ltrim($normalizedPath, '/')
-            : $fallback;
+        return $fallback;
     }
 
     private function serviceLogoFallback(?string $serviceName): string
