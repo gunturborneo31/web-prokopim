@@ -113,6 +113,22 @@
                                 </div>
                             </a>
                             @endforeach
+
+                            @if(count($announcementSlides) > 1)
+                            <div class="absolute right-5 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-4">
+                                <button @click="announcementSlide = (announcementSlide - 1 + totalAnnouncements) % totalAnnouncements"
+                                        class="rounded-full bg-white/80 p-2 text-slate-500 shadow-md backdrop-blur transition-all hover:text-instansi-action active:scale-90"
+                                        title="Pengumuman sebelumnya">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 15l-6-6-6 6" /></svg>
+                                </button>
+
+                                <button @click="announcementSlide = (announcementSlide + 1) % totalAnnouncements"
+                                        class="rounded-full bg-white/80 p-2 text-slate-500 shadow-md backdrop-blur transition-all hover:text-instansi-action active:scale-90"
+                                        title="Pengumuman selanjutnya">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 9l6 6 6-6" /></svg>
+                                </button>
+                            </div>
+                            @endif
                         </div>
                         @else
                         <div class="h-[260px] sm:h-[320px] lg:h-[420px] xl:h-[480px] rounded-[2rem] border border-slate-300/20 bg-white/80 p-6 flex items-center justify-center text-center">
