@@ -471,13 +471,33 @@
 
     <div class="slider-grid">
         @forelse($sliders as $slider)
+            @php
+                $sliderImage = null;
+                if ($slider->file) {
+                    $rawPath = $slider->file->storage_path ?? $slider->file->path ?? null;
+
+                    if (filled($rawPath)) {
+                        if (str_starts_with($rawPath, ['http://', 'https://'])) {
+                            $sliderImage = $rawPath;
+                        } else {
+                            $normalizedPath = str_replace('\\', '/', $rawPath);
+                            $normalizedPath = preg_replace('#^/?storage/#i', '', $normalizedPath);
+                            $normalizedPath = ltrim($normalizedPath, '/');
+                            $sliderImage = filled($normalizedPath)
+                                ? \Illuminate\Support\Facades\Storage::disk('public')->url($normalizedPath)
+                                : asset('images/placeholder.jpg');
+                        }
+                    }
+                }
+            @endphp
+
             <div class="slider-card {{ $slider->is_pinned ? 'is-pinned' : '' }}">
-                
+                 
                     {{-- Gambar --}}
                     <div class="slider-image-wrapper">
-
-                        @if($slider->file && $slider->file->path)
-                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($slider->file->path) }}" alt="{{ $slider->caption }}" class="slider-image">
+ 
+                        @if($sliderImage)
+                            <img src="{{ $sliderImage }}" alt="{{ $slider->caption }}" class="slider-image" onerror="this.onerror=null;this.src='{{ asset('images/placeholder.jpg') }}';">
                         @else
                             {{-- Fallback jika tidak ada gambar --}}
                             <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#cbd5e1;">

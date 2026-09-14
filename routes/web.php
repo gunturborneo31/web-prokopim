@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PublicMediaController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\FeedbackController;
@@ -30,6 +31,9 @@ use App\Http\Controllers\FrontendPageController;
 // });
 
 Route::get('/', [LandingController::class, 'index'])->name('beranda');
+Route::get('/media/public/{path}', [PublicMediaController::class, 'show'])
+    ->where('path', '.*')
+    ->name('media.public');
 
 
 // Language Switcher Route

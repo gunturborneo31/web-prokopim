@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agenda;
 use App\Models\BeritaVisualIg;
+use App\Models\HomeAnnouncement;
 use App\Models\LeaderProfile;
 use App\Models\Post;
 use App\Models\Service;
@@ -80,6 +81,19 @@ class LandingController extends Controller
             ])
             ->values();
 
+        $pengumumanGambarItems = HomeAnnouncement::query()
+            ->where('status', true)
+            ->orderBy('order')
+            ->orderByDesc('updated_at')
+            ->take(12)
+            ->get()
+            ->map(fn (HomeAnnouncement $item) => [
+                'title' => $item->title ?: 'Pengumuman',
+                'image' => $this->resolveMediaUrl($item->image, asset('images/desamahakamulu.jpg')),
+                'link' => $item->link,
+            ])
+            ->values();
+
         $beritaVisualIgItems = BeritaVisualIg::query()
             ->where('is_active', true)
             ->take(12)
@@ -124,6 +138,7 @@ class LandingController extends Controller
             'featuredNewsItems' => $featuredNewsItems,
             'sliderItems' => $sliderItems,
             'pengumumanItems' => $pengumumanItems,
+            'pengumumanGambarItems' => $pengumumanGambarItems,
             'beritaVisualIgItems' => $beritaVisualIgItems,
             'agendaItems' => $agendaItems,
             'agendaTotalCount' => $agendaTotalCount,
@@ -176,7 +191,7 @@ class LandingController extends Controller
             return $fallback;
         }
 
-        return asset('storage/' . ltrim($normalizedPath, '/'));
+        return route('media.public', ['path' => ltrim($normalizedPath, '/')]);
     }
 
     private function serviceLogoFallback(?string $serviceName): string

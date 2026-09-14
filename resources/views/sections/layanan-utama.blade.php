@@ -19,7 +19,7 @@
         <!-- Layout Layanan Utama (Bento Grid Style) -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto lg:px-8 xl:px-16">
             <!-- Card 1: Layanan Keprotokolan -->
-            <div class="glass-card group relative overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px]">
+            <a href="https://agpim.akkreatif.com/" target="_blank" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Keprotokolan">
                 <div class="relative z-10">
                     <span class="material-symbols-outlined absolute -top-6 -right-6 text-[11rem] md:text-[12rem] opacity-30 blur-[1px] -z-10 transition-all duration-500 group-hover:opacity-60 group-hover:scale-110 text-[#274CA5]">shield</span>
                     <h3 class="font-montserrat font-black text-3xl uppercase text-[#123c8b] mb-3">Layanan<br>Keprotokolan</h3>
@@ -34,10 +34,10 @@
                 <div class="absolute  opacity-20 group-hover:opacity-40 transition-opacity duration-500 left-0 bottom-0">
                     <img alt="Protokol" class="slanted-image rounded-2xl grayscale hover:grayscale-0 transition-all duration-700 w-full h-full object-cover" src="/images/protokol.png" />
                 </div>
-            </div>
+            </a>
 
             <!-- Card 2: Layanan Kopim -->
-            <div class="glass-card group relative overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px]">
+            <a href="https://agpim.akkreatif.com/usulan-tanpa-login" target="_blank" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Kopim">
                 <div class="relative z-10">
                     <span class="material-symbols-outlined absolute -top-6 -right-6 text-[11rem] md:text-[12rem] opacity-30 blur-[1px] -z-10 transition-all duration-500 group-hover:opacity-60 group-hover:scale-110 text-[#274CA5]">campaign</span>
                     <h3 class="font-montserrat font-black text-3xl uppercase text-[#123c8b] mb-3">Layanan<br>Kopim</h3>
@@ -52,10 +52,10 @@
                 <div class="absolute  opacity-20 group-hover:opacity-40 transition-opacity duration-500 left-0 bottom-0">
                     <img alt="Kopim" class="slanted-image rounded-2xl grayscale hover:grayscale-0 transition-all duration-700 w-full h-full object-cover" src="/images/kopim.png" />
                 </div>
-            </div>
+            </a>
 
             <!-- Card 3: Layanan Dokpim -->
-            <div class="glass-card group relative overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px]">
+            <a href="http://potretpimpinan.akkreatif.com/" target="_blank" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Dokpim">
                 <div class="relative z-10">
                     <span class="material-symbols-outlined absolute -top-6 -right-6 text-[11rem] md:text-[12rem] opacity-30 blur-[1px] -z-10 transition-all duration-500 group-hover:opacity-60 group-hover:scale-110 text-[#274CA5]">description</span>
                     <h3 class="font-montserrat font-black text-3xl uppercase text-[#123c8b] mb-3">Layanan<br>Dokpim</h3>
@@ -70,7 +70,7 @@
                 <div class="absolute  opacity-20 group-hover:opacity-40 transition-opacity duration-500 left-0 bottom-0">
                     <img alt="Dokpim" class="slanted-image rounded-2xl grayscale hover:grayscale-0 transition-all duration-700 w-full h-full object-cover" src="/images/dokpim.png" />
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
@@ -85,6 +85,8 @@
             border: 1px solid rgba(39, 76, 165, 0.16);
             box-shadow: 0 10px 30px -12px rgba(15, 23, 42, 0.16);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
         }
 
         .glass-card:hover {

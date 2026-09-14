@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\BeritaVisualIgs\Schemas;
+namespace App\Filament\Resources\HomeAnnouncements\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
-class BeritaVisualIgForm
+class HomeAnnouncementForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -17,15 +17,13 @@ class BeritaVisualIgForm
                     ->label(__('Judul / Keterangan'))
                     ->placeholder(__('Opsional'))
                     ->maxLength(255)
-                    ->helperText(__('Bisa dikosongkan jika hanya ingin menampilkan gambar.'))
                     ->columnSpanFull(),
 
                 TextInput::make('link')
-                    ->label(__('Tautan Instagram'))
+                    ->label(__('Tautan'))
                     ->placeholder(__('Opsional'))
                     ->url()
                     ->maxLength(255)
-                    ->helperText(__('Bisa dikosongkan jika tidak ada tautan.'))
                     ->columnSpanFull(),
 
                 FileUpload::make('image')
@@ -33,14 +31,11 @@ class BeritaVisualIgForm
                     ->disk('public')
                     ->image()
                     ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        '1:1',
-                    ])
-                    ->directory('berita-visual-ig')
+                    ->directory('home-announcements')
                     ->visibility('public')
                     ->maxSize(5120)
                     ->required()
-                    ->helperText(__('Gunakan rasio 1:1 (persegi) agar tampil optimal seperti feed Instagram. Format: JPG, PNG. Maksimal 5MB.'))
+                    ->helperText(__('Format gambar yang boleh digunakan: JPG, PNG, WebP. Maksimal 5MB.'))
                     ->columnSpanFull(),
 
                 TextInput::make('order')
@@ -49,10 +44,10 @@ class BeritaVisualIgForm
                     ->default(0)
                     ->helperText(__('Semakin kecil angka, semakin awal ditampilkan')),
 
-                Toggle::make('is_active')
+                Toggle::make('status')
                     ->label(__('Aktif'))
                     ->default(true)
-                    ->helperText(__('Hanya gambar aktif yang akan ditampilkan di beranda')),
+                    ->helperText(__('Hanya gambar aktif yang muncul di beranda')),
             ])
             ->columns(2);
     }

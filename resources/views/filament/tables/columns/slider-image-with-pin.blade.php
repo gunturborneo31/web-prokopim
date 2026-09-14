@@ -1,6 +1,24 @@
 @php
     $record = $getRecord();
-    $imagePath = $record->file ? asset('storage/' . $record->file->path) : asset('images/placeholder.jpg');
+    $imagePath = asset('images/placeholder.jpg');
+
+    if ($record->file) {
+        $rawPath = $record->file->storage_path ?? $record->file->path ?? null;
+
+        if (filled($rawPath)) {
+           if (str_starts_with($rawPath, ['http://', 'https://'])) {
+               $imagePath = $rawPath;
+           } else {
+               $normalizedPath = str_replace('\\', '/', $rawPath);
+               $normalizedPath = preg_replace('#^/?storage/#i', '', $normalizedPath);
+               $normalizedPath = ltrim($normalizedPath, '/');
+               $imagePath = filled($normalizedPath)
+                   ? \Illuminate\Support\Facades\Storage::disk('public')->url($normalizedPath)
+                   : asset('images/placeholder.jpg');
+           }
+        }
+    }
+
     $isPinned = $record->is_pinned;
 @endphp
 
@@ -8,7 +26,8 @@
     {{-- Main Image --}}
     <img src="{{ $imagePath }}" 
          alt="{{ $record->caption }}" 
-         class="w-full h-48 object-cover transition-all duration-300 group-hover:brightness-95">
+         class="w-full h-48 object-cover transition-all duration-300 group-hover:brightness-95"
+         onerror="this.onerror=null;this.src='{{ asset('images/placeholder.jpg') }}';">
 
     {{-- Pin Indicator at TOP-LEFT (Clickable) --}}
     <button wire:click="callTableAction('pin', '{{ $record->getKey() }}')"
