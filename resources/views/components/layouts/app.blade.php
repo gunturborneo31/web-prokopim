@@ -134,5 +134,12 @@
             }
         });
     </script>
+
+    {{-- Widget aksesibilitas disabilitas (Sienna, open-source & gratis) --}}
+    <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@2.2.333/dist/sienna.min.js"
+            data-asw-lang="id"
+            data-asw-position="bottom-left"
+            data-asw-offset="20,96"
+            defer></script>
 </body>
 </html>
