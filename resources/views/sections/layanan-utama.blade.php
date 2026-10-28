@@ -19,7 +19,7 @@
         <!-- Layout Layanan Utama (Bento Grid Style) -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto lg:px-8 xl:px-16">
             <!-- Card 1: Layanan Keprotokolan -->
-            <a href="https://agpim.akkreatif.com/" target="_blank" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Keprotokolan">
+            <a href="https://agpim.akkreatif.com/usulan-tanpa-login" target="_blank" rel="noopener" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Keprotokolan">
                 <div class="relative z-10">
                     <span class="material-symbols-outlined absolute -top-6 -right-6 text-[11rem] md:text-[12rem] opacity-30 blur-[1px] -z-10 transition-all duration-500 group-hover:opacity-60 group-hover:scale-110 text-[#274CA5]">shield</span>
                     <h3 class="font-montserrat font-black text-3xl uppercase text-[#123c8b] mb-3">Layanan<br>Keprotokolan</h3>
@@ -37,7 +37,7 @@
             </a>
 
             <!-- Card 2: Layanan Kopim -->
-            <a href="https://agpim.akkreatif.com/usulan-tanpa-login" target="_blank" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Kopim">
+            <a href="https://potretpimpinan.akkreatif.com/#sambutan" target="_blank" rel="noopener" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Kopim">
                 <div class="relative z-10">
                     <span class="material-symbols-outlined absolute -top-6 -right-6 text-[11rem] md:text-[12rem] opacity-30 blur-[1px] -z-10 transition-all duration-500 group-hover:opacity-60 group-hover:scale-110 text-[#274CA5]">campaign</span>
                     <h3 class="font-montserrat font-black text-3xl uppercase text-[#123c8b] mb-3">Layanan<br>Kopim</h3>
@@ -55,7 +55,7 @@
             </a>
 
             <!-- Card 3: Layanan Dokpim -->
-            <a href="http://potretpimpinan.akkreatif.com/" target="_blank" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Dokpim">
+            <a href="https://potretpimpinan.akkreatif.com/list-kegiatan" target="_blank" rel="noopener" class="glass-card group relative block overflow-hidden rounded-[32px] p-8 flex flex-col justify-between h-[240px] cursor-pointer no-underline text-inherit" aria-label="Buka Layanan Dokpim">
                 <div class="relative z-10">
                     <span class="material-symbols-outlined absolute -top-6 -right-6 text-[11rem] md:text-[12rem] opacity-30 blur-[1px] -z-10 transition-all duration-500 group-hover:opacity-60 group-hover:scale-110 text-[#274CA5]">description</span>
                     <h3 class="font-montserrat font-black text-3xl uppercase text-[#123c8b] mb-3">Layanan<br>Dokpim</h3>
@@ -70,6 +70,14 @@
                 <div class="absolute  opacity-20 group-hover:opacity-40 transition-opacity duration-500 left-0 bottom-0">
                     <img alt="Dokpim" class="slanted-image rounded-2xl grayscale hover:grayscale-0 transition-all duration-700 w-full h-full object-cover" src="/images/dokpim.png" />
                 </div>
+            </a>
+        </div>
+
+        <div class="mt-10 flex justify-center">
+            <a href="https://agpim.akkreatif.com/" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-bold text-[#123c8b] shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl">
+                <span class="material-symbols-outlined text-xl">download</span>
+                Unduh Form Manual Keprotokolan
             </a>
         </div>
     </div>

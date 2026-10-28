@@ -26,6 +26,36 @@
             "
             @keydown.escape.window="isModalOpen = false">
             <div class="container mx-auto px-4 sm:px-6 lg:px-12 mt-8">
+                <!-- Teks pengumuman berjalan (terbaru ke terlama) -->
+                @if (count($pengumumanItems ?? []) > 0)
+                <div class="mx-auto mb-4 flex w-full max-w-[1500px] items-stretch overflow-hidden rounded-full border border-slate-200/70 bg-slate-50 text-sm shadow-sm">
+                    <a href="{{ route('pengumuman.index') }}" class="flex shrink-0 items-center gap-1.5 bg-instansi-action px-4 py-2 font-bold text-white">
+                        <span class="material-symbols-outlined text-base">campaign</span>
+                        <span class="hidden sm:inline">Pengumuman</span>
+                    </a>
+                    <div class="announcement-ticker relative flex-1 overflow-hidden py-2">
+                        <div class="announcement-ticker-track flex w-max items-center whitespace-nowrap">
+                            @foreach ([0, 1] as $copy)
+                            <div class="flex items-center" @if ($copy) aria-hidden="true" @endif>
+                                @foreach ($pengumumanItems as $item)
+                                <a href="{{ $item['link'] }}" @if ($copy) tabindex="-1" @endif class="px-6 font-medium text-slate-700 hover:text-instansi-action">
+                                    {{ $item['title'] }}
+                                </a>
+                                <span class="text-slate-300">&bull;</span>
+                                @endforeach
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    .announcement-ticker-track { animation: announcement-ticker {{ max(20, count($pengumumanItems) * 8) }}s linear infinite; }
+                    .announcement-ticker:hover .announcement-ticker-track { animation-play-state: paused; }
+                    @keyframes announcement-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+                    @media (prefers-reduced-motion: reduce) { .announcement-ticker-track { animation: none; } }
+                </style>
+                @endif
+
                 <div class="mx-auto grid w-full max-w-[1500px] grid-cols-1 gap-4 lg:grid-cols-[minmax(0,3.2fr)_minmax(340px,1.4fr)] lg:gap-6 items-stretch">
                     <!-- Slider utama -->
                     <div data-aos="fade-right" class="relative justify-self-center rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-300/20 group border border-slate-200/70 bg-slate-50

@@ -34,7 +34,7 @@
                     Peng<span class="text-transparent bg-clip-text" style="background-image: linear-gradient(135deg, #10192d 0%, #F59E0B 50%, #D97706 100%);">hargaan</span>
                 </h1>
                 <p class="mt-3 text-black/90 text-lg font-medium max-w-2xl leading-relaxed">
-                    Rekam jejak prestasi dan penghargaan yang diraih oleh PROKOPIM Kabupaten Mahakam Ulu.
+                    Rekam jejak prestasi dan penghargaan yang diraih oleh Kabupaten Mahakam Ulu.
                 </p>
                 <div class="mt-8 flex items-center justify-center gap-2 text-sm text-white/50">
                     <a href="{{ route('beranda') }}" class="hover:text-[#274CA5] transition-colors">Beranda</a>

@@ -130,4 +130,11 @@ Route::prefix('layanan')->name('layanan.')->group(function () {
     Route::get('/cek-status/search', [FrontendPageController::class, 'lookupComplaintStatus'])->name('cek-status.search');
     Route::get('/wbs', [FrontendPageController::class, 'showWbsPage'])->name('wbs');
     Route::post('/wbs', [FrontendPageController::class, 'storeWbs'])->name('wbs.store');
+
+    // Link Google Form diatur di Admin > Identitas Website > Survey Kepuasan Masyarakat
+    Route::get('/survey', function () {
+        $surveyUrl = \App\Models\WebsiteIdentity::query()->latest('id')->value('survey_link_url');
+
+        return $surveyUrl ? redirect()->away($surveyUrl) : redirect()->route('beranda');
+    })->name('survei');
 });

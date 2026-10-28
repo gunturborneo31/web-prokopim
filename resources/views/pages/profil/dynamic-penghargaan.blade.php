@@ -1,6 +1,6 @@
 <x-layouts.app>
     @php
-        $subtitle = $profilePage?->meta_desc ?? 'Rekam prestasi dan penghargaan PROKOPIM Kabupaten Mahakam Ulu.';
+        $subtitle = $profilePage?->meta_desc ?? 'Rekam prestasi dan penghargaan yang diraih Kabupaten Mahakam Ulu.';
     @endphp
 
     <section class="relative pt-[100px] pb-20 overflow-hidden bg-[#274CA5]">

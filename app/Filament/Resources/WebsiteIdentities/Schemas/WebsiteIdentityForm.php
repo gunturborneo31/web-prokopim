@@ -297,9 +297,8 @@ class WebsiteIdentityForm
                         TextInput::make('survey_link_url')
                             ->label(__('URL Survey Kepuasan Masyarakat'))
                             ->url()
-                            ->placeholder('https://eskm-inspektorat.akkreatif.my.id/')
-                            ->default('https://eskm-inspektorat.akkreatif.my.id/')
-                            ->helperText(__('URL alamat website e-SKM (Survey Kepuasan Masyarakat).'))
+                            ->placeholder('https://forms.gle/...')
+                            ->helperText(__('Link Google Form survei kepuasan. Menu "Survey Kepuasan" diarahkan ke /layanan/survey.'))
                             ->columnSpanFull(),
                     ])
                     ->columns(1)

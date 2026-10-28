@@ -6,18 +6,18 @@
 
         @include('sections.slider-pengumuman')
 
+        @include('sections.kabar-terkini')
+
         @include('sections.layanan-utama')
 
-        @include('sections.kabar-terkini')
-        
         @include('sections.agenda')
 
         @include('sections.gallery')
 
-        @include('sections.insight')
-
         @include('sections.sosmed')
-        
+
         @include('sections.layanan')
+
+        @include('sections.insight')
     </div>
 </x-layouts.app>

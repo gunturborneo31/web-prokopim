@@ -73,7 +73,7 @@ class LandingController extends Controller
             })
             ->orderByDesc('published_at')
             ->orderByDesc('id')
-            ->take(5)
+            ->take(10)
             ->get()
             ->map(fn (Post $post) => [
                 'title' => $post->title,
