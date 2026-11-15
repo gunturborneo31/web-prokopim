@@ -9,7 +9,14 @@ use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\DocumentStatsController;
 use App\Http\Controllers\FrontendPageController;
+// use Illuminate\Support\Facades\Storage;
 
+// Route::get('/media/{path}', function ($path) {
+//     if (!Storage::disk('public')->exists($path)) {
+//         abort(404);
+//     }
+//     return Storage::disk('public')->response($path);
+// })->where('path', '.*');
 /*
 |--------------------------------------------------------------------------
 | Web Routes

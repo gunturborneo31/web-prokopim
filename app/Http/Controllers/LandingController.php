@@ -110,7 +110,7 @@ class LandingController extends Controller
         $agendaTotalCount = Agenda::query()->count();
 
         $agendaItems = Agenda::query()
-            ->orderBy('schedule')
+            ->orderByDesc('schedule')
             ->take(5)
             ->get()
             ->map(function (Agenda $agenda) {

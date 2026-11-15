@@ -87,11 +87,11 @@
                                 <tr>
                                     <th class="px-4 py-3">No</th>
                                     <th class="px-4 py-3">Tanggal</th>
-                                    <th class="px-4 py-3">Waktu</th>
-                                    <th class="px-4 py-3">Hari</th>
+                                    <!-- <th class="px-4 py-3">Waktu</th> -->
+                                    <!-- <th class="px-4 py-3">Hari</th> -->
                                     <th class="px-4 py-3">Nama</th>
-                                    <th class="px-4 py-3">Tempat</th>
-                                    <th class="px-4 py-3">OPD</th>
+                                    <!-- <th class="px-4 py-3">Tempat</th> -->
+                                    <!-- <th class="px-4 py-3">OPD</th> -->
                                 </tr>
                             </thead>
                             <tbody class="divide-y dividewhite/10">
@@ -99,11 +99,11 @@
                                     <tr class="text-slate-100 hover:bg-white/5 transition-colors">
                                         <td class="px-4 py-3 font-semibold" x-text="idx + 1"></td>
                                         <td class="px-4 py-3" x-text="item.date"></td>
-                                        <td class="px-4 py-3" x-text="item.time"></td>
-                                        <td class="px-4 py-3" x-text="item.hari || '-' "></td>
+                                        <!-- <td class="px-4 py-3" x-text="item.time"></td> -->
+                                        <!-- <td class="px-4 py-3" x-text="item.hari || '-' "></td> -->
                                         <td class="px-4 py-3 font-semibold text-white" x-text="item.title"></td>
-                                        <td class="px-4 py-3" x-text="item.location"></td>
-                                        <td class="px-4 py-3" x-text="item.opd || '-' "></td>
+                                        <!-- <td class="px-4 py-3" x-text="item.location"></td> -->
+                                        <!-- <td class="px-4 py-3" x-text="item.opd || '-' "></td> -->
                                     </tr>
                                 </template>
                             </tbody>
