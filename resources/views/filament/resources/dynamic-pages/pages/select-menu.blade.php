@@ -6,11 +6,15 @@
     // "needs_link" tells the frontend JS to pass along a query param so the
     // edit screen can backfill menu_id on save instead of leaving it orphaned.
     $resolvePage = function ($menu) {
-        $page = \App\Services\DynamicPageLinker::resolveForMenu($menu);
+        // Menu Berita / Pengumuman: isinya otomatis dari Post, bukan halaman dinamis
+        $postCategory = \App\Services\DynamicPageLinker::postCategoryForMenu($menu);
+        $page = $postCategory ? null : \App\Services\DynamicPageLinker::resolveForMenu($menu);
 
         return [
             'page_id'    => $page?->id,
             'needs_link' => $page && $page->menu_id === null,
+            'post_url'   => $postCategory ? \App\Services\DynamicPageLinker::postAdminUrlForMenu($menu) : null,
+            'post_label' => $postCategory?->name,
         ];
     };
 
@@ -23,6 +27,8 @@
             'name'     => $m->name,
             'page_id'  => $mPage['page_id'],
             'needs_link' => $mPage['needs_link'],
+            'post_url' => $mPage['post_url'],
+            'post_label' => $mPage['post_label'],
             'children' => $m->children->map(function ($c) use ($resolvePage) {
                 $cPage = $resolvePage($c);
 
@@ -31,6 +37,8 @@
                     'name'     => $c->name,
                     'page_id'  => $cPage['page_id'],
                     'needs_link' => $cPage['needs_link'],
+                    'post_url' => $cPage['post_url'],
+                    'post_label' => $cPage['post_label'],
                     'children' => $c->children->map(function ($g) use ($resolvePage) {
                         $gPage = $resolvePage($g);
 
@@ -39,6 +47,8 @@
                             'name'  => $g->name,
                             'page_id' => $gPage['page_id'],
                             'needs_link' => $gPage['needs_link'],
+                            'post_url' => $gPage['post_url'],
+                            'post_label' => $gPage['post_label'],
                             'children' => $g->children->map(function ($gg) use ($resolvePage) {
                                 $ggPage = $resolvePage($gg);
 
@@ -47,6 +57,8 @@
                                     'name'  => $gg->name,
                                     'page_id' => $ggPage['page_id'],
                                     'needs_link' => $ggPage['needs_link'],
+                                    'post_url' => $ggPage['post_url'],
+                                    'post_label' => $ggPage['post_label'],
                                 ];
                             })->values()->all(),
                         ];
@@ -375,6 +387,8 @@
         const lang = {
             adaHalaman: "{{ __('Sudah ada Halaman') }}",
             belumAdaHalaman: "{{ __('Belum ada Halaman') }}",
+            otomatisPost: "{{ __('Otomatis dari Post kategori') }}",
+            btnKelolaPost: "{{ __('Kelola Post') }}",
             subMenu: "{{ __('sub-menu') }}",
             noSubMenu: "{{ __('Tidak ada sub-menu.') }}",
             sub: "{{ __('sub') }}",
@@ -433,7 +447,10 @@
 
             /* Auto-redirect for leaf nodes (no sub-menus) *only* if triggered by manual click */
             if (isClick && (!menu.children || menu.children.length === 0)) {
-                if (menu.page_id) {
+                // Menu Berita / Pengumuman: langsung ke daftar Post kategorinya
+                if (menu.post_url) {
+                    window.location.href = menu.post_url;
+                } else if (menu.page_id) {
                     window.location.href = editUrl(menu);
                 } else {
                     window.location.href = selectBase + '?menu_id=' + menu.id + '&menu_name=' + encodeURIComponent(menu.name);
@@ -452,14 +469,19 @@
 
             document.getElementById('smv-title').textContent = menu.name;
             
-            let statusText = menu.page_id ? lang.adaHalaman : lang.belumAdaHalaman;
+            let statusText = menu.post_url
+                ? lang.otomatisPost + ' "' + menu.post_label + '"'
+                : (menu.page_id ? lang.adaHalaman : lang.belumAdaHalaman);
             let subCount = (menu.children && menu.children.length) ? menu.children.length : 0;
             
             document.getElementById('smv-meta').textContent  =
                 statusText + ' · ' + subCount + ' ' + lang.subMenu;
             
             // Generate exact 1-to-1 URL depending on whether page exists
-            if (menu.page_id) {
+            if (menu.post_url) {
+                document.getElementById('smv-cta').href = menu.post_url;
+                document.getElementById('smv-cta-text').textContent = lang.btnKelolaPost + ' ' + menu.post_label;
+            } else if (menu.page_id) {
                 document.getElementById('smv-cta').href = editUrl(menu);
                 document.getElementById('smv-cta-text').textContent = lang.btnEdit;
             } else {
@@ -476,9 +498,11 @@
 
             var html = '<div class="smv-section-lbl">' + lang.lblSubMenu + '</div>';
             menu.children.forEach(function (c) {
-                var badge = c.page_id
-                    ? '<span class="smv-badge" style="background:#dbeafe;color:#065f46;border-color:#a7f3d0;">✓ Halaman</span>' 
-                    : '<span class="smv-badge">-</span>';
+                var badge = c.post_url
+                    ? '<span class="smv-badge" style="background:#fef3c7;color:#92400e;border-color:#fde68a;">📰 Post ' + esc(c.post_label) + '</span>'
+                    : (c.page_id
+                        ? '<span class="smv-badge" style="background:#dbeafe;color:#065f46;border-color:#a7f3d0;">✓ Halaman</span>'
+                        : '<span class="smv-badge">-</span>');
                 var sub = c.children.length
                     ? '<span style="font-size:.68rem;color:#9ca3af;white-space:nowrap;margin-right:.25rem;">'
                       + c.children.length + ' ' + lang.sub + '</span>' : '';
@@ -500,7 +524,7 @@
                 if (c.children.length) {
                     html += '<div id="smv-wrap-' + c.id + '" class="smv-grand-wrap" style="display:none;">';
                     c.children.forEach(function (g) {
-                        var gb = g.page_id ? '<span class="smv-grand-badge" style="color:#2563eb;">✓ Halaman</span>' : '';
+                        var gb = g.post_url ? '<span class="smv-grand-badge" style="color:#b45309;">📰 Post</span>' : g.page_id ? '<span class="smv-grand-badge" style="color:#2563eb;">✓ Halaman</span>' : '';
                         
                         var toggleG = g.children.length
                             ? '<div onclick="smvToggle(' + g.id + ', event)" style="width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:.375rem;margin-left:-.25rem;"><svg id="smv-arr-' + g.id + '" style="width:.9rem;height:.9rem;transition:transform .2s;" class="smv-ch-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>'
@@ -516,7 +540,7 @@
                         if (g.children && g.children.length) {
                             html += '<div id="smv-wrap-' + g.id + '" class="smv-ggrand-wrap" style="display:none;">';
                             g.children.forEach(function (gg) {
-                                var ggb = gg.page_id ? '<span class="smv-ggrand-badge" style="color:#2563eb;">✓</span>' : '';
+                                var ggb = gg.post_url ? '<span class="smv-ggrand-badge" style="color:#b45309;">📰</span>' : gg.page_id ? '<span class="smv-ggrand-badge" style="color:#2563eb;">✓</span>' : '';
                                 html += '<a href="' + urlChild(gg.id) + '" class="smv-ggrand">'
                                     + '<div class="smv-ggrand-dash"></div>'
                                     + '<span class="smv-ggrand-name">' + esc(gg.name) + '</span>'

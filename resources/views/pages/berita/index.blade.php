@@ -87,7 +87,7 @@
                             </svg>
                             {{ number_format($featuredNews['views']) }} views
                         </span>
-                        <span class="hidden md:inline-flex items-center gap-2 px-5 py-2 bg-white/10 backdrop-blur-sm border borderwhite/20 rounded-full text-white font-bold text-sm group-hover:bg-[#274CA5] group-hover:border-sky-300 transition-all duration-300">
+                        <span class="hidden md:inline-flex items-center gap-2 px-5 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white font-bold text-sm group-hover:bg-[#274CA5] group-hover:border-sky-300 transition-all duration-300">
                             Baca Selengkapnya →
                         </span>
                     </div>

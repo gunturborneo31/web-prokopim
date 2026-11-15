@@ -23,7 +23,7 @@
 
         <div class="container px-4 sm:px-6 lg:px-12 relative z-20">
             <div class="max-w-4xl text-center" data-aos="fade-up">
-                <div class="inline-flex items-center pr-4 py-2 rounded-full bg-white/5 border borderwhite/10 text-white text-[10px] font-bold tracking-[0.2em] uppercase backdrop-blur-sm shadow-xl mb-3">
+                <div class="inline-flex items-center pr-4 py-2 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-bold tracking-[0.2em] uppercase backdrop-blur-sm shadow-xl mb-3">
                     <div class="relative flex h-2 w-2 mx-3">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#274CA5] opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-[#9ae600]"></span>
@@ -121,7 +121,7 @@
         {{-- PDF Container --}}
         <div class="relative w-full h-full max-w-5xl flex flex-col items-center justify-center bg-slate-800 rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10 z-[110] transform scale-95 data-[state=open]:scale-100 transition-transform duration-300">
             <!-- Modal Header -->
-            <div class="w-full bg-[#274CA5] border-b borderwhite/10 flex items-center justify-between px-4 py-3 shrink-0">
+            <div class="w-full bg-[#274CA5] border-b border-white/10 flex items-center justify-between px-4 py-3 shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="p-2 bg-yellow-500/20 rounded-lg text-[#274CA5]">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -58,6 +58,8 @@ Route::get('language/{locale}', function ($locale) {
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
 Route::get('/halaman/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
+// Beberapa menu memakai link lama "/pengumuman"
+Route::redirect('/pengumuman', '/halaman/pengumuman', 301);
 Route::get('/halaman/pengumuman/{slug}', [PengumumanController::class, 'show'])->name('pengumuman.show');
 
 Route::get('/halaman/{slug?}', [FrontendPageController::class, 'showDynamicPage'])->name('halaman.dynamic');

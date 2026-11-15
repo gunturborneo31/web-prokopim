@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\DynamicPage;
 use App\Models\Menu;
+use App\Models\PostCategory;
 use Illuminate\Support\Str;
 
 /**
@@ -52,6 +53,43 @@ class DynamicPageLinker
             ->where('slug', $slug)
             ->whereNull('menu_id')
             ->first();
+    }
+
+    /**
+     * Menu Berita / Pengumuman bukan halaman dinamis: isinya otomatis dari Post sesuai kategori.
+     * Kembalikan kategori Post-nya jika link menu mengarah ke halaman daftar post.
+     */
+    public static function postCategoryForMenu(Menu $menu): ?PostCategory
+    {
+        $path = strtolower(rtrim((string) parse_url(trim((string) $menu->link), PHP_URL_PATH), '/'));
+
+        $slug = match (true) {
+            $path === '/berita' => 'berita',
+            in_array($path, ['/halaman/pengumuman', '/pengumuman'], true) => 'pengumuman',
+            default => null,
+        };
+
+        if ($slug === null) {
+            return null;
+        }
+
+        return PostCategory::query()->where('slug', $slug)->first();
+    }
+
+    /**
+     * URL admin untuk mengelola post kategori menu ini (daftar post terfilter).
+     */
+    public static function postAdminUrlForMenu(Menu $menu): ?string
+    {
+        $category = self::postCategoryForMenu($menu);
+
+        if (! $category) {
+            return null;
+        }
+
+        return \App\Filament\Resources\Posts\PostResource::getUrl('index', [
+            'filters' => ['category' => ['value' => $category->id]],
+        ]);
     }
 
     /**

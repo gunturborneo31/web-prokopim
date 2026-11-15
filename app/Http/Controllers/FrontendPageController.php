@@ -54,7 +54,8 @@ class FrontendPageController extends Controller
                 'leaders' => $this->resolveLeaders($page),
             ]),
 
-            'dokumen_grid', 'dokumen_list' => $this->renderDynamicLibraryPage($page),
+            // Template "tabel" memakai form yang sama dengan Dokumen
+            'dokumen_grid', 'dokumen_list', 'tabel' => $this->renderDynamicLibraryPage($page),
 
             default => view('pages.profil.dynamic-content', [
                 'profilePage' => $page,
@@ -78,6 +79,10 @@ class FrontendPageController extends Controller
         }
 
         abort_if(! $profilePage, 404);
+
+        if ($profilePage->template === 'tabel') {
+            return $this->renderDynamicLibraryPage($profilePage);
+        }
 
         return view('pages.profil.dynamic-content', [
             'profilePage' => $profilePage,
@@ -531,6 +536,14 @@ class FrontendPageController extends Controller
         $section = $this->resolveLibrarySectionFromMenu($dynamicPage);
         $content = is_array($dynamicPage->content) ? $dynamicPage->content : [];
 
+        // Mode "Isi Manual": dokumen diinput langsung di form halaman (content.documents)
+        $isManual = ($content['mode'] ?? null) === 'manual'
+            || (! isset($content['mode']) && empty($content['ppid_id']));
+
+        if ($isManual) {
+            return $this->renderManualDocumentPage($dynamicPage, $section, $content);
+        }
+
         $page = null;
 
         if (! empty($content['ppid_id'])) {
@@ -563,6 +576,56 @@ class FrontendPageController extends Controller
                     ];
                 })->values()
                 : collect(),
+        ]);
+    }
+
+    private function renderManualDocumentPage(DynamicPage $dynamicPage, string $section, array $content)
+    {
+        $rows = collect($content['documents'] ?? [])
+            ->filter(fn ($doc) => is_array($doc) && filled($doc['name'] ?? null))
+            ->values()
+            ->map(function (array $doc, int $index) use ($dynamicPage, $section) {
+                $file = $doc['file_url'] ?? null;
+                $file = is_array($file) ? (collect($file)->first() ?? null) : $file;
+                $extension = strtoupper(pathinfo((string) $file, PATHINFO_EXTENSION));
+
+                return [
+                    'key' => 'dynamic_page_' . $dynamicPage->id . '_doc_' . $index,
+                    'no' => str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT),
+                    'title' => $doc['name'],
+                    'year' => filled($doc['date'] ?? null) ? (string) $doc['date'] : '-',
+                    'type' => $extension !== '' ? $extension : 'FILE',
+                    'status' => $section === 'ppid' ? 'Tersedia' : 'Berlaku',
+                    'kategori' => filled($doc['description'] ?? null) ? $doc['description'] : null,
+                    'file' => $this->resolveMediaUrl(is_string($file) ? $file : null, ''),
+                    'views' => 0,
+                    'downloads' => 0,
+                ];
+            });
+
+        $statsMap = Schema::hasTable('document_stats') && $rows->isNotEmpty()
+            ? DocumentStat::query()
+                ->whereIn('doc_key', $rows->pluck('key'))
+                ->get()
+                ->mapWithKeys(fn (DocumentStat $stat) => [$stat->doc_key => ['views' => $stat->views, 'downloads' => $stat->downloads]])
+                ->all()
+            : [];
+
+        // Objek ringan pengganti model Ppid untuk view dynamic-index
+        $page = (object) [
+            'name' => $dynamicPage->title,
+            'description' => $content['subtitle'] ?? $dynamicPage->meta_desc,
+        ];
+
+        return view('pages.library.dynamic-index', [
+            'section' => $section,
+            'slug' => $dynamicPage->slug,
+            'page' => $page,
+            'statsMap' => $statsMap,
+            'documents' => $section === 'dokumen' ? $rows : [],
+            'regulations' => $section === 'regulasi' ? $rows : [],
+            'informasi' => $section === 'ppid' ? $rows : [],
+            'accordions' => collect(),
         ]);
     }
 

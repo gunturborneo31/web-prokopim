@@ -108,11 +108,11 @@
         @endif
 
         {{-- Page Numbers --}}
-        @for($page = 1; $page <= $totalPages; $page++)
-            @if($page == $currentPage)
-            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-sky-600 text-white font-bold text-sm shadow-lg shadow-sky-200">{{ $page }}</span>
+        @for($pageNumber = 1; $pageNumber <= $totalPages; $pageNumber++)
+            @if($pageNumber == $currentPage)
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-sky-600 text-white font-bold text-sm shadow-lg shadow-sky-200">{{ $pageNumber }}</span>
             @else
-            <a href="{{ request()->fullUrlWithQuery(['page' => $page]) }}" class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white text-slate-600 font-medium text-sm hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200 transition-all duration-200">{{ $page }}</a>
+            <a href="{{ request()->fullUrlWithQuery(['page' => $pageNumber]) }}" class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white text-slate-600 font-medium text-sm hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200 transition-all duration-200">{{ $pageNumber }}</a>
             @endif
         @endfor
 

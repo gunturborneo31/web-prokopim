@@ -5,14 +5,19 @@
             'regulasi' => 'Regulasi',
             default => 'PPID',
         };
-        $subtitle = $page->description ?: 'Data publik ditampilkan langsung dari backend dan diperbarui dari panel admin.';
+        // Abaikan deskripsi bawaan hasil impor website lama
+        $rawDescription = trim((string) $page->description);
+        $isImportNote = $rawDescription !== '' && str_contains(strtolower($rawDescription), 'dari website lama');
+        $subtitle = ($rawDescription !== '' && ! $isImportNote)
+            ? $rawDescription
+            : 'Daftar ' . $page->name . ' Bagian Protokol dan Komunikasi Pimpinan Kabupaten Mahakam Ulu.';
     @endphp
 
     <section class="relative pt-[100px] pb-20 overflow-hidden bg-[#274CA5]">
         <div class="absolute inset-0 z-0 opacity-80"><img src="{{ asset('images/desamahakamulu.jpg') }}" alt="{{ $page->name }}" class="w-full h-full object-cover"></div>
 
         <div class="container mx-auto px-4 sm:px-6 lg:px-12 relative z-20 text-center">
-            <div class="inline-flex items-center pr-4 py-2 rounded-full bg-white/5 border borderwhite/10 text-white text-[10px] font-bold tracking-[0.2em] uppercase backdrop-blur-sm shadow-xl mb-3">{{ $sectionLabel }}</div>
+            <div class="inline-flex items-center pr-4 py-2 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-bold tracking-[0.2em] uppercase backdrop-blur-sm shadow-xl mb-3">{{ $sectionLabel }}</div>
             <h1 class="font-montserrat font-black text-4xl sm:text-5xl lg:text-6xl text-white">{{ $page->name }}</h1>
             <p class="mt-6 text-sky-200 text-lg max-w-3xl mx-auto">{{ $subtitle }}</p>
         </div>

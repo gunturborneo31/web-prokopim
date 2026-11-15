@@ -13,7 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement('ALTER TABLE posts MODIFY tags TEXT NULL');
+        // Sintaks MODIFY khusus MySQL/MariaDB (SQLite untuk testing tidak perlu)
+        if (in_array(DB::getDriverName(), ['mysql', 'mariadb'], true)) {
+            DB::statement('ALTER TABLE posts MODIFY tags TEXT NULL');
+        }
 
         $now = now();
 
@@ -44,7 +47,9 @@ return new class extends Migration
     public function down(): void
     {
         // Konsolidasi kategori & normalisasi tags tidak dapat dibatalkan (data lama sudah hilang).
-        DB::statement('ALTER TABLE posts MODIFY tags VARCHAR(255) NULL');
+        if (in_array(DB::getDriverName(), ['mysql', 'mariadb'], true)) {
+            DB::statement('ALTER TABLE posts MODIFY tags VARCHAR(255) NULL');
+        }
     }
 
     private function findOrCreateCategory(string $name, string $slug, $now): int

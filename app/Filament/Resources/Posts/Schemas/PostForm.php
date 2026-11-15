@@ -33,6 +33,7 @@ class PostForm
                                     ->label(__('Kategori'))
                                     ->relationship('category', 'name')
                                     ->native(false)
+                                    ->live()
                                     ->required()
                                     ->default(fn () => \App\Models\PostCategory::where('slug', 'berita')->value('id'))
                                     ->helperText(__('Pilih "Uncategorized" agar tulisan ini disembunyikan dari daftar & pencarian Berita publik (hanya bisa diakses lewat tautan langsung).'))
@@ -96,6 +97,14 @@ class PostForm
                                     ->default(fn() => auth()->user()->name),
                                 \Filament\Forms\Components\RichEditor::make('content')
                                     ->label(__('Konten'))
+                                    // Tombol "Lampirkan file" di editor: gambar + dokumen.
+                                    // Dokumen non-gambar otomatis diubah jadi link unduh saat disimpan (lihat Post::booted).
+                                    ->fileAttachmentsDisk('public')
+                                    ->fileAttachmentsDirectory('posts/content')
+                                    ->fileAttachmentsVisibility('public')
+                                    ->fileAttachmentsAcceptedFileTypes(\App\Models\Post::EDITOR_ATTACHMENT_MIME_TYPES)
+                                    ->fileAttachmentsMaxSize(20480) // 20 MB
+                                    ->helperText(__('Untuk menyisipkan gambar atau dokumen (PDF, Word, Excel, PowerPoint) di dalam isi tulisan, klik ikon lampiran (📎) di toolbar editor. Dokumen akan tampil sebagai tautan unduh.'))
                                     ->columnSpanFull(),
                                 Select::make('status')
                                     ->options([
@@ -105,8 +114,43 @@ class PostForm
                                     ->default(1)
                                     ->required()
                                     ->columnSpanFull(),
+                                \Filament\Forms\Components\Toggle::make('show_on_home')
+                                    ->label(__('Tampilkan di Beranda'))
+                                    ->helperText(__('Jika aktif, pengumuman ini tayang di panel pengumuman samping slider halaman depan (hanya jika status "Tayang").'))
+                                    ->default(false)
+                                    ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => (bool) \App\Models\PostCategory::query()
+                                        ->whereKey($get('category_id'))
+                                        ->announcement()
+                                        ->exists())
+                                    ->columnSpanFull(),
                             ])
                             ->columns(2),
+
+                        \Filament\Schemas\Components\Tabs\Tab::make('Lampiran')
+                            ->icon('heroicon-m-paper-clip')
+                            ->schema([
+                                \Filament\Forms\Components\FileUpload::make('attachments')
+                                    ->label(__('Lampiran Dokumen / Video'))
+                                    ->multiple()
+                                    ->reorderable()
+                                    ->appendFiles()
+                                    ->disk('public')
+                                    ->directory('posts/attachments')
+                                    ->visibility('public')
+                                    ->storeFileNamesIn('attachment_names')
+                                    ->acceptedFileTypes(array_merge(\App\Models\Post::DOCUMENT_MIME_TYPES, [
+                                        'video/mp4',
+                                        'video/webm',
+                                        'video/ogg',
+                                        'video/quicktime',
+                                    ]))
+                                    ->maxSize(102400) // 100 MB per file
+                                    ->maxFiles(10)
+                                    ->openable()
+                                    ->downloadable()
+                                    ->helperText(__('Format: PDF, Word (DOC/DOCX), Excel (XLS/XLSX), PowerPoint (PPT/PPTX), ZIP, serta video MP4, WEBM, OGG, MOV. Maksimal 100 MB per file, 10 file. Lampiran tampil di bawah isi tulisan pada halaman publik.'))
+                                    ->columnSpanFull(),
+                            ]),
 
                         \Filament\Schemas\Components\Tabs\Tab::make('Optimasi SEO')
                             ->icon('heroicon-m-magnifying-glass-circle')
