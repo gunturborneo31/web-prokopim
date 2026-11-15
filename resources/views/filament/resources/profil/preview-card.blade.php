@@ -32,9 +32,9 @@
             </div>
 
             {{-- Content --}}
-            <div class="fi-section-content-ctn border-t border-gray-200 dark:borderwhite/10">
+            <div class="fi-section-content-ctn border-t border-gray-200 dark:border-white/10">
                 <div class="fi-section-content p-6">
-                    <dl class="divide-y divide-gray-100 dark:dividewhite/5">
+                    <dl class="divide-y divide-gray-100 dark:divide-white/5">
                         {{-- Subjudul --}}
                         @if($record->content)
                             <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
@@ -58,7 +58,7 @@
                                     Gambar Profil
                                 </dt>
                                 <dd class="text-sm text-gray-500 dark:text-gray-400 sm:col-span-2">
-                                    <div class="rounded-lg overflow-hidden border border-gray-200 dark:borderwhite/10" style="max-width: 400px;">
+                                    <div class="rounded-lg overflow-hidden border border-gray-200 dark:border-white/10" style="max-width: 400px;">
                                         <img src="{{ Storage::url($imagePath) }}" 
                                              alt="{{ $record->tags['alt_text'] ?? 'Profil BPBJ' }}"
                                              class="w-full h-auto">

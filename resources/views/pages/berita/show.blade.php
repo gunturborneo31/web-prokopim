@@ -135,6 +135,9 @@
                     {!! $articleContent ?: '<p class="text-slate-600">Belum ada konten berita.</p>' !!}
                 </div>
 
+                {{-- Lampiran PDF / Video --}}
+                <x-post-attachments :attachments="$news['attachments'] ?? []" />
+
                 {{-- Tags --}}
                 @if(!empty($news['tags']))
                 <div class="mt-10 pt-8 border-t border-slate-100">

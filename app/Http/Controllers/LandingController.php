@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agenda;
 use App\Models\BeritaVisualIg;
-use App\Models\HomeAnnouncement;
 use App\Models\LeaderProfile;
 use App\Models\Post;
 use App\Models\Service;
 use App\Models\Slider;
 use App\Models\WebsiteIdentity;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class LandingController extends Controller
@@ -63,38 +59,37 @@ class LandingController extends Controller
             ])
             ->values();
 
-        $pengumumanItems = Post::query()
+        $mapPengumuman = fn (Post $post) => [
+            'title' => $post->title,
+            'description' => Str::limit(trim(strip_tags($post->content ?? '')), 160),
+            'image' => $this->resolveMediaUrl($post->file?->storage_path ?? $post->file?->path, asset('images/desamahakamulu.jpg')),
+            'link' => route('pengumuman.show', $post->slug),
+        ];
+
+        $pengumumanQuery = fn () => Post::query()
             ->with(['category', 'file'])
             ->where('status', 1)
-            ->whereHas('category', function (Builder $query) {
-                $query->where('slug', 'pengumuman')
-                    ->orWhereRaw('LOWER(name) = ?', ['pengumuman'])
-                    ->orWhereRaw('LOWER(name) LIKE ?', ['%pengumuman%']);
-            })
+            ->announcement()
             ->orderByDesc('published_at')
-            ->orderByDesc('id')
+            ->orderByDesc('id');
+
+        // Teks berjalan: pengumuman terbaru
+        $pengumumanItems = $pengumumanQuery()
             ->take(10)
             ->get()
-            ->map(fn (Post $post) => [
-                'title' => $post->title,
-                'description' => Str::limit(trim(strip_tags($post->content ?? '')), 160),
-                'image' => $this->resolveMediaUrl($post->file?->storage_path ?? $post->file?->path, asset('images/desamahakamulu.jpg')),
-                'link' => route('pengumuman.show', $post->slug),
-            ])
+            ->map($mapPengumuman)
             ->values();
 
-        $pengumumanGambarItems = HomeAnnouncement::query()
-            ->where('status', true)
-            ->orderBy('order')
-            ->orderByDesc('updated_at')
+        // Panel samping slider: pengumuman yang ditandai "Tampilkan di Beranda" di admin
+        $pengumumanBerandaItems = $pengumumanQuery()
+            ->where('show_on_home', true)
             ->take(12)
             ->get()
-            ->map(fn (HomeAnnouncement $item) => [
-                'title' => $item->title ?: 'Pengumuman',
-                'image' => $this->resolveMediaUrl($item->image, asset('images/desamahakamulu.jpg')),
-                'link' => $item->link,
-            ])
+            ->map($mapPengumuman)
             ->values();
+
+        // Panel hanya berisi artikel Pengumuman; jika belum ada yang ditandai, pakai pengumuman terbaru
+        $pengumumanGambarItems = $pengumumanBerandaItems->isNotEmpty() ? $pengumumanBerandaItems : $pengumumanItems;
 
         $beritaVisualIgItems = BeritaVisualIg::query()
             ->where('is_active', true)
@@ -107,30 +102,10 @@ class LandingController extends Controller
             ])
             ->values();
 
-        $agendaTotalCount = Agenda::query()->count();
-
-        $agendaItems = Agenda::query()
-            ->orderBy('schedule')
-            ->take(5)
-            ->get()
-            ->map(function (Agenda $agenda) {
-                $schedule = $agenda->schedule ? Carbon::parse($agenda->schedule) : null;
-                $localizedSchedule = $schedule?->copy()->locale('id');
-
-                return [
-                    'title' => $agenda->caption,
-                    'description' => $agenda->description,
-                    'date' => $localizedSchedule?->translatedFormat('d F Y') ?? '-',
-                    'iso' => $schedule?->format('Y-m-d') ?? null,
-                    'time' => $localizedSchedule?->translatedFormat('H:i') ?? '-',
-                    'hari' => $localizedSchedule?->translatedFormat('l') ?? '-',
-                    'location' => $agenda->location ?? 'Mahakam Ulu',
-                    'opd' => $agenda->opd ?? '-',
-                    'day' => $schedule?->translatedFormat('d') ?? '-',
-                    'month' => strtoupper((string) $localizedSchedule?->translatedFormat('M')),
-                ];
-            })
-            ->values();
+        // Agenda: dari API (AGENDA_API_URL) jika diisi, jika tidak/gagal pakai data lokal
+        $agenda = app(\App\Services\AgendaService::class)->latest(5);
+        $agendaItems = $agenda['items'];
+        $agendaTotalCount = $agenda['total'];
 
         $allLinks = $this->serviceLinks();
 

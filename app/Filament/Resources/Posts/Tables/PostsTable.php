@@ -84,13 +84,23 @@ class PostsTable
                         'warning' => 0,
                     ])
                     ->alignCenter(),
- 
+                \Filament\Tables\Columns\ToggleColumn::make('show_on_home')
+                    ->label(__('BERANDA'))
+                    ->tooltip(fn (\App\Models\Post $record) => $record->category?->isAnnouncement()
+                        ? __('Tampilkan di panel pengumuman beranda')
+                        : __('Hanya untuk kategori Pengumuman'))
+                    ->disabled(fn (\App\Models\Post $record) => ! $record->category?->isAnnouncement())
+                    ->alignCenter(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
                 \Filament\Tables\Filters\SelectFilter::make('category')
                     ->relationship('category', 'name')
                     ->label(__('Kategori')),
+                \Filament\Tables\Filters\TernaryFilter::make('show_on_home')
+                    ->label(__('Tampil di Beranda'))
+                    ->trueLabel(__('Ya'))
+                    ->falseLabel(__('Tidak')),
             ])
             ->actions([
                 Action::make('view')
@@ -100,7 +110,9 @@ class PostsTable
                     ->tooltip(fn (\App\Models\Post $record) => $record->category?->slug === 'uncategorized'
                         ? __('Lihat/salin tautan langsung (tersembunyi dari daftar publik)')
                         : __('Lihat di halaman publik'))
-                    ->url(fn (\App\Models\Post $record) => route('berita.show', $record->slug))
+                    ->url(fn (\App\Models\Post $record) => $record->category?->isAnnouncement()
+                        ? route('pengumuman.show', $record->slug)
+                        : route('berita.show', $record->slug))
                     ->openUrlInNewTab(),
 
                 EditAction::make()

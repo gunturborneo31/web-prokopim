@@ -38,7 +38,7 @@
                             @foreach ([0, 1] as $copy)
                             <div class="flex items-center" @if ($copy) aria-hidden="true" @endif>
                                 @foreach ($pengumumanItems as $item)
-                                <a href="{{ $item['link'] }}" @if ($copy) tabindex="-1" @endif class="px-6 font-medium text-slate-700 hover:text-instansi-action">
+                                <a href="{{ $item['link'] }}" target="_blank" rel="noopener noreferrer" @if ($copy) tabindex="-1" @endif class="px-6 font-medium text-slate-700 hover:text-instansi-action">
                                     {{ $item['title'] }}
                                 </a>
                                 <span class="text-slate-300">&bull;</span>
@@ -117,11 +117,12 @@
                         @if(!empty($announcementSlides) && count($announcementSlides) > 0)
                         <div class="relative h-[260px] sm:h-[320px] lg:h-[420px] xl:h-[480px] overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-100 shadow-xl shadow-slate-300/20">
                             @foreach($announcementSlides as $index => $pengumuman)
-                            <a href="{{ !empty($pengumuman['link']) ? $pengumuman['link'] : '#' }}"
+                            {{-- Menuju halaman detail artikel pengumuman --}}
+                            <a href="{{ $pengumuman['link'] ?? route('pengumuman.index') }}"
+                                target="_blank" rel="noopener noreferrer"
                                 class="absolute inset-0 block group"
                                 x-show="announcementSlide === {{ $index }}"
                                 x-cloak
-                                @if (empty($pengumuman['link'])) @click.prevent="isModalOpen = true; modalImageSrc = '{{ $pengumuman['image'] }}'" @endif
                                 x-transition:enter="transition-all duration-700 ease-out"
                                 x-transition:enter-start="opacity-0 translate-y-3"
                                 x-transition:enter-end="opacity-100 translate-y-0"

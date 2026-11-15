@@ -297,7 +297,7 @@
                                 <div class="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/20 rounded-full blur-2xl -ml-10 -mb-10 pointer-events-none"></div>
                                 
                                 <div class="relative z-10">
-                                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border borderwhite/20 w-fit mb-5 backdrop-blur-sm">
+                                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 w-fit mb-5 backdrop-blur-sm">
                                         <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
                                         <span class="text-[10px] font-bold tracking-widest text-sky-100 uppercase">Pelacakan Tiket</span>
                                     </div>

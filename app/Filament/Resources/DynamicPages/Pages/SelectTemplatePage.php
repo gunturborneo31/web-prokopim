@@ -25,6 +25,11 @@ class SelectTemplatePage extends Page
         }
 
         $menu = \App\Models\Menu::find($menuId);
+
+        if ($menu && $this->redirectIfPostCategoryMenu($menu)) {
+            return;
+        }
+
         $existingPage = $menu ? \App\Services\DynamicPageLinker::resolveForMenu($menu) : null;
         if (! $existingPage) {
             return;
@@ -39,6 +44,38 @@ class SelectTemplatePage extends Page
         }
 
         $this->redirect(DynamicPageResource::getUrl('edit', $params));
+    }
+
+    /**
+     * Menu Berita / Pengumuman isinya otomatis dari Post. Arahkan admin ke daftar Post
+     * agar tidak membuat halaman dinamis yang menimpa link menu.
+     */
+    public static function postCategoryRedirectFor(\App\Models\Menu $menu): ?string
+    {
+        $url = \App\Services\DynamicPageLinker::postAdminUrlForMenu($menu);
+
+        if ($url) {
+            $category = \App\Services\DynamicPageLinker::postCategoryForMenu($menu);
+
+            \Filament\Notifications\Notification::make()
+                ->title(__('Menu ":menu" otomatis menampilkan Post kategori ":category"', ['menu' => $menu->name, 'category' => $category?->name]))
+                ->body(__('Tambah atau ubah isinya lewat menu Post. Halaman dinamis tidak diperlukan untuk menu ini.'))
+                ->info()
+                ->send();
+        }
+
+        return $url;
+    }
+
+    private function redirectIfPostCategoryMenu(\App\Models\Menu $menu): bool
+    {
+        $url = static::postCategoryRedirectFor($menu);
+
+        if ($url) {
+            $this->redirect($url);
+        }
+
+        return (bool) $url;
     }
 
     protected function getHeaderActions(): array

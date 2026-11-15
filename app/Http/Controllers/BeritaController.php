@@ -167,6 +167,7 @@ class BeritaController extends Controller
             'author' => $post->penulis ?: ($post->user?->name ?? 'Admin'),
             'tags' => is_array($post->tags) ? $post->tags : array_values(array_filter(array_map('trim', explode(',', (string) $post->tags)))),
             'content' => $includeContent ? $contentForView : null,
+            'attachments' => $includeContent ? $post->attachmentItems() : [],
         ];
     }
 

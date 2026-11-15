@@ -30,6 +30,13 @@ class CreateDynamicPage extends CreateRecord
         $menuId = request()->integer('menu_id');
         if ($menuId) {
             $menu = \App\Models\Menu::find($menuId);
+
+            if ($menu && ($postUrl = SelectTemplatePage::postCategoryRedirectFor($menu))) {
+                $this->redirect($postUrl);
+
+                return;
+            }
+
             $existingPage = $menu ? \App\Services\DynamicPageLinker::resolveForMenu($menu) : null;
             if ($existingPage) {
                 $params = ['record' => $existingPage];

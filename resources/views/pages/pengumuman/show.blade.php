@@ -105,6 +105,9 @@
                     {!! $announcementContent ?: '<p class="text-slate-600">Belum ada konten pengumuman.</p>' !!}
                 </div>
 
+                {{-- Lampiran PDF / Video --}}
+                <x-post-attachments :attachments="$item['attachments'] ?? []" />
+
                 @if(!empty($item['tags']))
                 <div class="mt-10 pt-8 border-t border-slate-100">
                     <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Tags</p>
