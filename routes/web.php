@@ -147,3 +147,6 @@ Route::prefix('layanan')->name('layanan.')->group(function () {
         return $surveyUrl ? redirect()->away($surveyUrl) : redirect()->route('beranda');
     })->name('survei');
 });
+
+// Link lama website WordPress ("/{slug}") dialihkan ke "/berita/{slug}". Harus paling akhir.
+Route::fallback(\App\Http\Controllers\LegacyUrlController::class);
